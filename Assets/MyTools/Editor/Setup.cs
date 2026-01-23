@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -8,6 +9,7 @@ using static System.IO.Directory;
 using static System.IO.Path;
 using static UnityEditor.AssetDatabase;
 using System.IO;
+using Object = UnityEngine.Object;
 
 namespace MyTools
 {
@@ -66,6 +68,7 @@ namespace MyTools
         #region Scene
 
         [MenuItem("Tools/Setup/Scene/Init Scene")]
+        [Obsolete("Obsolete")]
         public static void InitScene()
         {
             // Verify the number of gameobjects in the scene
