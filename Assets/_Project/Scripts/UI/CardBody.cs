@@ -53,23 +53,12 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private void HandleDrag()
     {
-        var localPoint = GetLocalCoordsFromMouseScreenPosition();
+        var localPoint = UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas);
         _oldPosition = _rectTransform.anchoredPosition;
         _rectTransform.anchoredPosition = localPoint + offset;
 
         if (_oldPosition != null)
-            cardVisual.SetVelocity(_rectTransform.anchoredPosition - _oldPosition);
-    }
-
-    private Vector2 GetLocalCoordsFromMouseScreenPosition()
-    {
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            _rectTransform.parent as RectTransform,
-            _mouseScreenPosition,
-            canvas.worldCamera,
-            out var localPoint
-        );
-        return localPoint;
+            cardVisual.AnimateVelocity(_rectTransform.anchoredPosition - _oldPosition);
     }
 
     public void ReturnToOrigin(bool tweenCardReturn, float duration = .5f)
@@ -111,7 +100,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         BeginDragEvent?.Invoke(this);
 
-        var mousePos = GetLocalCoordsFromMouseScreenPosition();
+        var mousePos = UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas);
         offset = _rectTransform.anchoredPosition - mousePos;
         _isDragging = true;
 

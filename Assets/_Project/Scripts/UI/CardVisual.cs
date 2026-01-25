@@ -1,15 +1,22 @@
-﻿using PrimeTween;
+﻿using System;
+using PrimeTween;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Utilities;
 
 public class CardVisual : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private InputReader inputReader;
     private CardBody parentCardBody;
     private Image _image;
     private Tween _punchTween;
+    private RectTransform _rectTransform;
+    private Vector2 _mouseScreenPosition;
+    private Canvas _canvas;
+    private Vector2 LocalMousePosition => UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, _canvas);
 
     [Header("Follow Parameters")]
     [SerializeField] private float followSpeed = 30;
@@ -34,6 +41,11 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private float hoverPunchAngle = 5;
     [SerializeField] private float hoverTransition = .15f;
     [SerializeField] private Ease hoverEase = Ease.OutBack;
+
+    private int _savedIndex;
+    
+    private bool _isHovering = false;
+    private bool _isDragging = false;
     
     [Header("Swap Parameters")]
     [SerializeField] private bool swapAnimations = true;
@@ -41,27 +53,17 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private float swapTransition = .15f;
     [SerializeField] private int swapVibrato = 5;
 
-    private void OnPointerEnterAnimation(CardBody cardBody)
+    private void Start()
     {
-        Tween.Scale(transform, 1f, scaleOnHover, scaleTransitionInSeconds, scaleEase);
-        _scale = scaleOnHover;
+        _canvas = Registry<MainUICanvas>.GetFirst().GetComponent<Canvas>();
+        _rectTransform = GetComponent<RectTransform>();
         
-        _punchTween.Stop();
-        _punchTween = Tween.PunchLocalRotation(transform, Vector3.forward * hoverPunchAngle, hoverTransition, easeBetweenShakes: hoverEase).OnComplete(ResetRotation);
+        inputReader.Point += (p, isMouse) => _mouseScreenPosition = isMouse ? p : Vector2.zero;
     }
 
-    private void OnPointerExitAnimation(CardBody cardBody)
+    private void Update()
     {
-        Tween.Scale(transform, _scale, 1f, scaleTransitionInSeconds, scaleEase);
-        _scale = 1f;
-        
-        _punchTween.Stop();
-        _punchTween = Tween.PunchLocalRotation(transform, Vector3.forward * hoverPunchAngle, hoverTransition, easeBetweenShakes: hoverEase).OnComplete(ResetRotation);
-    }
-
-    private void ResetRotation()
-    {
-        transform.localRotation = Quaternion.identity;
+        CardTilt();
     }
 
     public void Initialize(CardBody cardBody, CardData cardData)
@@ -74,13 +76,80 @@ public class CardVisual : MonoBehaviour
         if (parentCardBody == null)
         {
             parentCardBody = cardBody;
-            parentCardBody.PointerEnterEvent.AddListener(OnPointerEnterAnimation);
-            parentCardBody.PointerExitEvent.AddListener(OnPointerExitAnimation);
+            parentCardBody.PointerEnterEvent.AddListener(OnPointerEnter);
+            parentCardBody.PointerExitEvent.AddListener(OnPointerExit);
+            parentCardBody.BeginDragEvent.AddListener(OnDragEnter);
+            parentCardBody.EndDragEvent.AddListener(OnDragExit);
         }
         _image.sprite = cardData.CardImage;
     }
 
-    public void SetVelocity(Vector2 velocity)
+    private void ResetRotation()
+    {
+        transform.localRotation = Quaternion.identity;
+    }
+
+    private void OnPointerEnter(CardBody cardBody)
+    {
+        _isHovering = true;
+        OnPointerEnterAnimation();
+    }
+
+    private void OnPointerExit(CardBody cardBody)
+    {
+        _isHovering = false;
+        OnPointerExitAnimation();
+    }
+
+    private void OnPointerEnterAnimation()
+    {
+        Tween.Scale(transform, 1f, scaleOnHover, scaleTransitionInSeconds, scaleEase);
+        _scale = scaleOnHover;
+        
+        _punchTween.Stop();
+        _punchTween = Tween.PunchLocalRotation(transform, Vector3.forward * hoverPunchAngle, hoverTransition, easeBetweenShakes: hoverEase).OnComplete(ResetRotation);
+    }
+
+    private void OnPointerExitAnimation()
+    {
+        Tween.Scale(transform, _scale, 1f, scaleTransitionInSeconds, scaleEase);
+        _scale = 1f;
+        
+        _punchTween.Stop();
+        _punchTween = Tween.PunchLocalRotation(transform, Vector3.forward * hoverPunchAngle, hoverTransition, easeBetweenShakes: hoverEase).OnComplete(ResetRotation);
+    }
+
+    private void OnDragEnter(CardBody cardBody)
+    {
+        _isDragging = true;
+        _savedIndex = cardBody.ParentIndex;
+    }
+
+    private void OnDragExit(CardBody cardBody)
+    {
+        _isDragging = false;
+    }
+    
+    private void CardTilt()
+    {
+        _savedIndex = _isDragging ? _savedIndex : parentCardBody.ParentIndex;
+        float sine = Mathf.Sin(Time.time + _savedIndex) * (_isHovering ? .2f : 1);
+        float cosine = Mathf.Cos(Time.time + _savedIndex) * (_isHovering ? .2f : 1);
+
+        Vector3 offset = (_rectTransform.anchoredPosition - LocalMousePosition).normalized;
+        float tiltX = _isHovering ? ((offset.y * -1) * manualTiltAmount) : 0;
+        float tiltY = _isHovering ? ((offset.x) * manualTiltAmount) : 0;
+        float tiltZ = _isHovering ? transform.eulerAngles.z : 0;
+
+        float lerpX = Mathf.LerpAngle(transform.eulerAngles.x, tiltX + (sine * autoTiltAmount), tiltSpeed * Time.deltaTime);
+        float lerpY = Mathf.LerpAngle(transform.eulerAngles.y, tiltY + (cosine * autoTiltAmount), tiltSpeed * Time.deltaTime);
+        float lerpZ = Mathf.LerpAngle(transform.eulerAngles.z, tiltZ, tiltSpeed / 2 * Time.deltaTime);
+
+        transform.eulerAngles = new Vector3(lerpX, lerpY, lerpZ);
+    }
+
+
+    public void AnimateVelocity(Vector2 velocity)
     {
         var horizontalVelocity = velocity.x;
         var isRight = horizontalVelocity > 0;

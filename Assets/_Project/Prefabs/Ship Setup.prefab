@@ -206,7 +206,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotManager
   slotPrefab: {fileID: 2441460802044922702, guid: 028cdd9b7b514fd4d97aa1ec4609cb3c, type: 3}
-  exampleCardData: {fileID: 11400000, guid: 45fa1e1d75cd3e8459c077fa758c864e, type: 2}
+  exampleCardsData:
+  - {fileID: 11400000, guid: 45fa1e1d75cd3e8459c077fa758c864e, type: 2}
+  - {fileID: 11400000, guid: bad06a510881a394592c5ff42856a72a, type: 2}
+  - {fileID: 11400000, guid: 1a496900da1a22e4da52c9f4844e6eda, type: 2}
+  - {fileID: 11400000, guid: 708193d21790a694d8db4603453b3c1c, type: 2}
   cardsToSpawn: 7
   cards: []
   tweenCardReturn: 1

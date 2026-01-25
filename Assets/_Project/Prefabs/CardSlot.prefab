@@ -270,13 +270,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57dd238ee9064a3e9812501542af5901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardVisual
+  inputReader: {fileID: 11400000, guid: 14d190aaafb8dfe4a8fb17f83ed91952, type: 2}
   followSpeed: 30
   maxSpeedInPixel: 300
   maxRotationAmountInDegree: 80
   rotationAmount: 20
   rotationSpeed: 20
-  autoTiltAmount: 30
-  manualTiltAmount: 20
+  autoTiltAmount: 4
+  manualTiltAmount: 6
   tiltSpeed: 20
   scaleOnHover: 1.1
   scaleOnSelected: 1.1
