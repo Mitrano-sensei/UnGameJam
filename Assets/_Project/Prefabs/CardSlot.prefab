@@ -112,7 +112,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Card
   canvas: {fileID: 0}
   inputReader: {fileID: 11400000, guid: 14d190aaafb8dfe4a8fb17f83ed91952, type: 2}
-  cardVisual: {fileID: 0}
+  cardVisual: {fileID: 5655563734265356760}
+  maxSpeed: 100
   PointerEnterEvent:
     m_PersistentCalls:
       m_Calls: []

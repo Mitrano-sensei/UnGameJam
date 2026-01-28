@@ -18,6 +18,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public RectTransform RectTransform => _rectTransform;
 
     [Header("Dragging")]
+    [SerializeField] private float maxSpeed = 10f;
     private Vector2 offset;
     private Vector2 _mouseScreenPosition;
     private Vector2 _oldPosition;
@@ -55,7 +56,12 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         var localPoint = UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas);
         _oldPosition = _rectTransform.anchoredPosition;
-        _rectTransform.anchoredPosition = localPoint + offset;
+        var targetPosition = localPoint + offset;
+        
+        if (Vector2.Distance(_oldPosition, targetPosition) > maxSpeed)
+            targetPosition = _oldPosition + (targetPosition - _oldPosition).normalized * maxSpeed;
+        
+        _rectTransform.anchoredPosition = targetPosition;
 
         if (_oldPosition != null)
             cardVisual.AnimateVelocity(_rectTransform.anchoredPosition - _oldPosition);
