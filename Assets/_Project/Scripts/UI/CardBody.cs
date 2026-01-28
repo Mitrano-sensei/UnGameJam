@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,7 +26,6 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private bool _isDragging;
 
     [Header("Selection")]
-    [ShowNonSerializedField]
     private bool _isSelected;
 
     [Header("Events")]

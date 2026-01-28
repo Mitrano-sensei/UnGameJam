@@ -19,20 +19,16 @@ public class CardVisual : MonoBehaviour
     private Vector2 LocalMousePosition => UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, _canvas);
 
     [Header("Follow Parameters")]
-    [SerializeField] private float followSpeed = 30;
     [SerializeField] private float maxSpeedInPixel = 500f;
     [SerializeField] private float maxRotationAmountInDegree = 80f;
 
     [Header("Rotation Parameters")]
-    [SerializeField] private float rotationAmount = 20;
-    [SerializeField] private float rotationSpeed = 20;
     [SerializeField] private float autoTiltAmount = 30;
     [SerializeField] private float manualTiltAmount = 20;
     [SerializeField] private float tiltSpeed = 20;
 
     [Header("Scale Parameters")]
     [SerializeField] private float scaleOnHover = 1.1f;
-    [SerializeField] private float scaleOnSelected = 1.1f;
     [SerializeField] private float scaleTransitionInSeconds = .1f;
     [SerializeField] private Ease scaleEase = Ease.OutBack;
     private float _scale = 1f;
@@ -47,12 +43,6 @@ public class CardVisual : MonoBehaviour
     private bool _isHovering = false;
     private bool _isDragging = false;
     
-    [Header("Swap Parameters")]
-    [SerializeField] private bool swapAnimations = true;
-    [SerializeField] private float swapRotationAngle = 30;
-    [SerializeField] private float swapTransition = .15f;
-    [SerializeField] private int swapVibrato = 5;
-
     private void Start()
     {
         _canvas = Registry<MainUICanvas>.GetFirst().GetComponent<Canvas>();

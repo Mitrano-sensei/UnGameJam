@@ -182,10 +182,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card UI Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2499416461377771245, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_Name
+      value: HandHandler
+      objectReference: {fileID: 0}
+    - target: {fileID: 4223212992740764559, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: inputReader
+      value: 
+      objectReference: {fileID: 11400000, guid: 14d190aaafb8dfe4a8fb17f83ed91952, type: 2}
     - target: {fileID: 4963219895494833066, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 8081506311526759564}
+    - target: {fileID: 5008053872854193048, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5008053872854193048, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1919
+      objectReference: {fileID: 0}
+    - target: {fileID: 5008053872854193048, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0007319869
+      objectReference: {fileID: 0}
+    - target: {fileID: 5008053872854193048, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5008053872854193048, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000030517578
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412398092257378298, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_Spacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412398092257378298, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_ChildForceExpandWidth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8424360205432663835, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
