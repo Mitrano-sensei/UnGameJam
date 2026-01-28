@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +24,11 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private Vector2 _mouseScreenPosition;
     private Vector2 _oldPosition;
 
-    private bool _isDragging = false;
+    private bool _isDragging;
+
+    [Header("Selection")]
+    [ShowNonSerializedField]
+    private bool _isSelected;
 
     [Header("Events")]
     [HideInInspector] public UnityEvent<CardBody> PointerEnterEvent;
@@ -44,7 +49,6 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         _rectTransform = GetComponent<RectTransform>();
 
         inputReader.Point += (p, isMouse) => _mouseScreenPosition = isMouse ? p : Vector2.zero;
-        inputReader.Interact += () => { };
     }
 
     private void Update()
@@ -94,6 +98,14 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         }
 
         cardVisual.Initialize(this, exampleCardData);
+    }
+
+    public void SetSelected(bool isSelected)
+    {
+        if (isSelected == _isSelected) return;
+        
+        _isSelected = isSelected;
+        SelectEvent?.Invoke(this, isSelected);
     }
 
     #region UI Events Implementation

@@ -80,6 +80,7 @@ public class CardVisual : MonoBehaviour
             parentCardBody.PointerExitEvent.AddListener(OnPointerExit);
             parentCardBody.BeginDragEvent.AddListener(OnDragEnter);
             parentCardBody.EndDragEvent.AddListener(OnDragExit);
+            parentCardBody.SelectEvent.AddListener(OnSelect);
         }
         _image.sprite = cardData.CardImage;
     }
@@ -130,8 +131,24 @@ public class CardVisual : MonoBehaviour
         _isDragging = false;
     }
     
+    private void OnSelect(CardBody cardBody, bool isSelected)
+    {
+        if (isSelected)
+        {
+            Tween.UIAnchoredPositionY(_rectTransform, 50f, .1f);
+            OnPointerEnterAnimation();
+        }
+        else
+        {
+            Tween.UIAnchoredPositionY(_rectTransform, 0f, .1f);
+            OnPointerExitAnimation();
+        }
+        
+    }
+    
     private void CardTilt()
     {
+        // TODO : Fix the card "center"
         _savedIndex = _isDragging ? _savedIndex : parentCardBody.ParentIndex;
         float sine = Mathf.Sin(Time.time + _savedIndex) * (_isHovering ? .2f : 1);
         float cosine = Mathf.Cos(Time.time + _savedIndex) * (_isHovering ? .2f : 1);

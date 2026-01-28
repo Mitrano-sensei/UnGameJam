@@ -766,6 +766,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5721341038988475875, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
+      propertyPath: inputReader
+      value: 
+      objectReference: {fileID: 11400000, guid: 14d190aaafb8dfe4a8fb17f83ed91952, type: 2}
+    - target: {fileID: 5721341038988475875, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
+      propertyPath: minimumTimeBetweenSelection
+      value: 0.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

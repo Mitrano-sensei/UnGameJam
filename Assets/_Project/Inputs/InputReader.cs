@@ -8,6 +8,8 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
 {
     public event UnityAction<Vector2, bool> Point = delegate { }; // bool is true if the user is using the mouse, false for controller
     public event UnityAction Interact = delegate { };
+    public event UnityAction<Vector2> Move = delegate { };
+    
     private InputSystem_Actions inputActions;
 
     void OnEnable()
@@ -88,7 +90,7 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        // throw new System.NotImplementedException();
+        Move.Invoke(context.ReadValue<Vector2>());
     }
 
     public void OnLook(InputAction.CallbackContext context)
