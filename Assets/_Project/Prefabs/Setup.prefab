@@ -99,6 +99,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3766096089565295276}
+  - {fileID: 314925481778288930}
   - {fileID: 5065805365705607576}
   m_Father: {fileID: 2716540100668815564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -153,7 +154,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bad06a510881a394592c5ff42856a72a, type: 2}
   - {fileID: 11400000, guid: 1a496900da1a22e4da52c9f4844e6eda, type: 2}
   - {fileID: 11400000, guid: 708193d21790a694d8db4603453b3c1c, type: 2}
-  handSize: 2
+  - {fileID: 11400000, guid: 45fa1e1d75cd3e8459c077fa758c864e, type: 2}
+  - {fileID: 11400000, guid: bad06a510881a394592c5ff42856a72a, type: 2}
+  - {fileID: 11400000, guid: 1a496900da1a22e4da52c9f4844e6eda, type: 2}
+  - {fileID: 11400000, guid: 708193d21790a694d8db4603453b3c1c, type: 2}
+  handSize: 5
   _currentHand: []
   _currentDeck: []
   _initOnStart: 1
@@ -382,6 +387,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d8901e825a43d2b796087dcc5dca77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementPerformer
+--- !u!1 &8188322939626763114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 314925481778288930}
+  - component: {fileID: 5186714182924118887}
+  m_Layer: 0
+  m_Name: ActionSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &314925481778288930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8188322939626763114}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2310248490366007685}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5186714182924118887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8188322939626763114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a0f96611014539bbf55fbec644a490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActionSystem
 --- !u!1 &9192239405864144966
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using Utilities;
 
 /**
@@ -14,6 +15,8 @@ public class ActionSystem : Singleton<ActionSystem>
     private static Dictionary<Type, List<Action<GameAction>>> preSubs = new();
     private static Dictionary<Type, List<Action<GameAction>>> postSubs = new();
     private static Dictionary<Type, Func<GameAction,IEnumerator>> performers = new();
+    
+    private static readonly Dictionary<(Type, ReactionTiming, Delegate), Action<GameAction>> _wrapperReferences = new();
 
     public void Perform(GameAction action, Action OnPerformFinished = null, bool manageIsPerforming = true)
     {
@@ -111,13 +114,14 @@ public class ActionSystem : Singleton<ActionSystem>
         Type type = typeof(T);
         if (performers.ContainsKey(type)) performers.Remove(type);
     }
-
+    
     public static void SubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T : GameAction
     {
         Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? preSubs : postSubs;
         var type = typeof(T);
         void wrappedReaction(GameAction action) => reaction((T)action);
-
+        _wrapperReferences.Add((type, timing, reaction), wrappedReaction);
+        
         if (!subs.ContainsKey(type))
         {
             subs.Add(type, new());
@@ -132,7 +136,12 @@ public class ActionSystem : Singleton<ActionSystem>
         var type = typeof(T);
         if (!subs.ContainsKey(type)) return;
         
-        void wrappedReaction(GameAction action) => reaction((T)action);
+        var wrappedReaction = _wrapperReferences[(type, timing, reaction)];
+        if (wrappedReaction == null)
+        {
+            Debug.LogError("No reaction found to unsubscribe");
+            return;
+        }
         subs[type].Remove(wrappedReaction);
     }
 }
