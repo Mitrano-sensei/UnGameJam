@@ -15,3 +15,22 @@ MonoBehaviour:
   CardName: Example Card
   CardImage: {fileID: 21300000, guid: 861c695fe718965468a14c5a3342d0b0, type: 3}
   CardDescription: Card used as an example
+  Effects:
+  - rid: 6238194198015901988
+  - rid: 6238194198015901989
+  - rid: 6238194198015901990
+  references:
+    version: 2
+    RefIds:
+    - rid: 6238194198015901988
+      type: {class: DrawCardGA, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 1
+    - rid: 6238194198015901989
+      type: {class: MovementGA, ns: , asm: Assembly-CSharp}
+      data:
+        movementType: 1
+    - rid: 6238194198015901990
+      type: {class: SpeedChangeGA, ns: , asm: Assembly-CSharp}
+      data:
+        amount: -1

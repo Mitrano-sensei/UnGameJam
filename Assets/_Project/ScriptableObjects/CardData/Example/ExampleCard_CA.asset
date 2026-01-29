@@ -15,3 +15,12 @@ MonoBehaviour:
   CardName: Example Card
   CardImage: {fileID: 21300000, guid: 5243c8677c3c91e4899a2a8356357aff, type: 3}
   CardDescription: Card used as an example
+  Effects:
+  - rid: 6238194198015901985
+  references:
+    version: 2
+    RefIds:
+    - rid: 6238194198015901985
+      type: {class: DrawCardGA, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 2

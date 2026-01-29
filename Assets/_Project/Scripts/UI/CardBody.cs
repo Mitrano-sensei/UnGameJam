@@ -1,3 +1,4 @@
+using EditorAttributes;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,13 +11,15 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 {
     [Header("References")]
     [SerializeField] private Canvas canvas;
-    [SerializeField] private InputReader inputReader;
-    [SerializeField] private CardVisual cardVisual;
+    [SerializeField, Required] private InputReader inputReader;
+    [SerializeField, Required] private CardVisual cardVisual;
+    [SerializeField, Required] private CardEffectHandler cardEffectHandler;
     private Image _image;
     private RectTransform _rectTransform;
 
     public RectTransform RectTransform => _rectTransform;
-
+    public CardEffectHandler EffectHandler => cardEffectHandler;
+    
     [Header("Dragging")]
     [SerializeField] private float maxSpeed = 10f;
     private Vector2 offset;
@@ -83,7 +86,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         Tween.UIAnchoredPosition(_rectTransform, Vector2.zero, duration);
     }
 
-    public void SetCardData(CardData exampleCardData)
+    public void SetCardData(CardData cardData)
     {
         if (cardVisual == null)
         {
@@ -95,7 +98,18 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             }
         }
 
-        cardVisual.Initialize(this, exampleCardData);
+        if (cardEffectHandler == null)
+        {
+            cardEffectHandler = GetComponent<CardEffectHandler>();
+            if (!cardEffectHandler)
+            {
+                Debug.LogError("No Card Effect Handler for Card");
+                return;
+            }
+        }
+
+        cardVisual.Initialize(this, cardData);
+        cardEffectHandler.Initialize(this, cardData);
     }
 
     public void SetSelected(bool isSelected)

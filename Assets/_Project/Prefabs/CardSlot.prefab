@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 8571660601130868842}
   - component: {fileID: 2524263988624348239}
   - component: {fileID: 7699905314524212375}
+  - component: {fileID: 5960313400970666539}
   - component: {fileID: 7540561318552745062}
   - component: {fileID: 8752360648649774350}
   - component: {fileID: 1414801531709203561}
@@ -113,6 +114,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   inputReader: {fileID: 11400000, guid: 14d190aaafb8dfe4a8fb17f83ed91952, type: 2}
   cardVisual: {fileID: 5655563734265356760}
+  cardEffectHandler: {fileID: 5960313400970666539}
   maxSpeed: 100
   PointerEnterEvent:
     m_PersistentCalls:
@@ -135,6 +137,18 @@ MonoBehaviour:
   SelectEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5960313400970666539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223561344345527012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fa265fcf78d104e83ca4afae1b74b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardEffectHandler
 --- !u!114 &7540561318552745062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,25 +286,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardVisual
   inputReader: {fileID: 11400000, guid: 14d190aaafb8dfe4a8fb17f83ed91952, type: 2}
-  followSpeed: 30
   maxSpeedInPixel: 300
   maxRotationAmountInDegree: 80
-  rotationAmount: 20
-  rotationSpeed: 20
   autoTiltAmount: 4
   manualTiltAmount: 6
   tiltSpeed: 20
   scaleOnHover: 1.1
-  scaleOnSelected: 1.1
   scaleTransitionInSeconds: 0.1
   scaleEase: 27
   hoverPunchAngle: 5
   hoverTransition: 0.15
   hoverEase: 27
-  swapAnimations: 1
-  swapRotationAngle: 30
-  swapTransition: 0.15
-  swapVibrato: 5
 --- !u!222 &6087596601460655201
 CanvasRenderer:
   m_ObjectHideFlags: 0

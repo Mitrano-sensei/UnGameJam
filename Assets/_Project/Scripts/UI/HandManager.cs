@@ -31,6 +31,7 @@ public class HandManager : MonoBehaviour
     {
         _rectTransform = GetComponent<RectTransform>();
         inputReader.Move += OnMoveInput;
+        inputReader.Interact += OnInteractInput;
     }
 
     private void Update()
@@ -119,7 +120,7 @@ public class HandManager : MonoBehaviour
 
         _draggedCardBody = null;
     }
-    
+
     private void OnMoveInput(Vector2 movement)
     {
         if (Mathf.Abs(movement.x) < movementThreshhold) return;
@@ -137,7 +138,7 @@ public class HandManager : MonoBehaviour
         var newSelectedIndex = MathMod(currentSelectedIndex + direction, _currentHand.Count);
         SelectCard(newSelectedIndex);
     }
-    
+
     private void SelectCard(int index)
     {
         _selectedCardBody = _currentHand[index];
@@ -146,14 +147,19 @@ public class HandManager : MonoBehaviour
             _currentHand[i].SetSelected(i == index);
         }
     }
-    
+
+    private void OnInteractInput()
+    {
+        if (_selectedCardBody == null) return;
+        _selectedCardBody.EffectHandler.PerformEffects();
+    }
+
     /**
      * Calculates the modulo of two integers, the mathematical way (instead of strange C# % operator).
      */
     private static int MathMod(int a, int b) {
         return (Math.Abs(a * b) + a) % b;
     }
-
 
     #endregion
 }

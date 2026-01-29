@@ -15,3 +15,12 @@ MonoBehaviour:
   CardName: Example Card
   CardImage: {fileID: 21300000, guid: 60f40c0a08c507740997efacea555554, type: 3}
   CardDescription: Card used as an example
+  Effects:
+  - rid: 6238194198015901986
+  references:
+    version: 2
+    RefIds:
+    - rid: 6238194198015901986
+      type: {class: MovementGA, ns: , asm: Assembly-CSharp}
+      data:
+        movementType: 0
