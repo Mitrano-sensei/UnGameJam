@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using EditorAttributes;
 using UnityEngine;
 using Utilities;
@@ -39,20 +40,20 @@ public class HandManager : MonoBehaviour
         if (!_draggedCardBody || _isCrossing)
             return;
 
-        for (int i = 0; i < _currentHand.Count; i++)
+        foreach (var card in _currentHand.OrderBy(c => c.CardIndex))
         {
-            bool isRight = _draggedCardBody.transform.position.x > _currentHand[i].transform.position.x;
-            bool isLeft = _draggedCardBody.transform.position.x < _currentHand[i].transform.position.x;
-            bool isSupposedRight = _draggedCardBody.ParentIndex > _currentHand[i].ParentIndex;
-            bool isSupposedLeft = _draggedCardBody.ParentIndex < _currentHand[i].ParentIndex;
-
+            bool isRight = _draggedCardBody.transform.position.x > card.transform.position.x;
+            bool isLeft = _draggedCardBody.transform.position.x < card.transform.position.x;
+            bool isSupposedRight = _draggedCardBody.CardIndex > card.CardIndex;
+            bool isSupposedLeft = _draggedCardBody.CardIndex < card.CardIndex;
+            
             if (isRight && isSupposedLeft)
             {
-                Swap(i);
+                SwapDraggedCard(card.CardIndex);
             }
             else if (isLeft && isSupposedRight)
             {
-                Swap(i);
+                SwapDraggedCard(card.CardIndex);
             }
         }
     }
@@ -63,10 +64,10 @@ public class HandManager : MonoBehaviour
         CardBody card = slot.GetComponentInChildren<CardBody>();
         _currentHand.Add(card);
         
-        InitializeCard(card, cardData);
+        InitializeCard(card, cardData, _currentHand.Count - 1);
     }
 
-    private void InitializeCard(CardBody card, CardData cardData)
+    private void InitializeCard(CardBody card, CardData cardData, int index)
     {
         card.PointerEnterEvent.AddListener(CardPointerEnter);
         card.PointerExitEvent.AddListener(CardPointerExit);
@@ -74,18 +75,27 @@ public class HandManager : MonoBehaviour
         card.EndDragEvent.AddListener(CardEndDrag);
 
         card.SetCardData(cardData);
+        card.SetCardIndex(index);
     }
 
-    void Swap(int i)
+    void SwapDraggedCard(int i)
     {
         _isCrossing = true;
+        
+        var crossedCard = _currentHand.Find(c => c.CardIndex == i);
 
         Transform draggedParent = _draggedCardBody.transform.parent;
-        Transform crossedParent = _currentHand[i].transform.parent;
-
+        Transform crossedParent = crossedCard.transform.parent;
+        
+        int fromIndex = _draggedCardBody.CardIndex;
+        int toIndex = crossedCard.CardIndex;
+        
         _draggedCardBody.transform.SetParent(crossedParent);
-        _currentHand[i].transform.SetParent(draggedParent);
-        _currentHand[i].ReturnToOrigin(tweenCardReturn, .2f);
+        crossedCard.transform.SetParent(draggedParent);
+        crossedCard.ReturnToOrigin(tweenCardReturn, .2f);
+        
+        _draggedCardBody.SetCardIndex(toIndex);
+        crossedCard.SetCardIndex(fromIndex);
 
         _isCrossing = false;
     }
@@ -94,12 +104,10 @@ public class HandManager : MonoBehaviour
 
     private void CardPointerEnter(CardBody cardBody)
     {
-        _selectedCardBody = cardBody;
     }
 
     private void CardPointerExit(CardBody cardBody)
     {
-        _selectedCardBody = null;
     }
 
     private void CardBeginDrag(CardBody cardBody)
@@ -127,7 +135,7 @@ public class HandManager : MonoBehaviour
         if (Time.time - _lastSelectionTime < minimumTimeBetweenSelection) return;
 
         _lastSelectionTime = Time.time;
-        int currentSelectedIndex = _selectedCardBody == null ? -1 : _selectedCardBody.ParentIndex;
+        int currentSelectedIndex = _selectedCardBody == null ? -1 : _selectedCardBody.CardIndex;
 
         if (currentSelectedIndex == -1)
         {
@@ -141,10 +149,11 @@ public class HandManager : MonoBehaviour
 
     private void SelectCard(int index)
     {
-        _selectedCardBody = _currentHand[index];
-        for (int i = 0; i < _currentHand.Count; i++)
+        _selectedCardBody = _currentHand.Find(c => c.CardIndex == index);
+        foreach (var card in _currentHand)
         {
-            _currentHand[i].SetSelected(i == index);
+            int cardIndex = card.CardIndex;
+            card.SetSelected(cardIndex == index);
         }
     }
 

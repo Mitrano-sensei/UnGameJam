@@ -30,6 +30,9 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     [Header("Selection")]
     private bool _isSelected;
+    [SerializeField, ReadOnly] private int _cardIndex;
+    
+    public int CardIndex => _cardIndex;
 
     [Header("Events")]
     [HideInInspector] public UnityEvent<CardBody> PointerEnterEvent;
@@ -118,6 +121,11 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         
         _isSelected = isSelected;
         SelectEvent?.Invoke(this, isSelected);
+    }
+
+    public void SetCardIndex(int index)
+    {
+        this._cardIndex = index;
     }
 
     #region UI Events Implementation

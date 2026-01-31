@@ -19,6 +19,7 @@ MonoBehaviour:
   - rid: 6238194289688444992
   - rid: 6238194289688444993
   - rid: 6238194289688445001
+  - rid: 6238194289688445002
   references:
     version: 2
     RefIds:
@@ -34,3 +35,8 @@ MonoBehaviour:
       type: {class: MovementGA, ns: , asm: Assembly-CSharp}
       data:
         movementType: 0
+        amount: 1
+    - rid: 6238194289688445002
+      type: {class: AttackGA, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 30
