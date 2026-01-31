@@ -143,5 +143,6 @@ public class ActionSystem : Singleton<ActionSystem>
             return;
         }
         subs[type].Remove(wrappedReaction);
+        _wrapperReferences[(type, timing, reaction)] = null;
     }
 }

@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 605365655}
   - component: {fileID: 605365656}
   m_Layer: 0
-  m_Name: ExampleArtifact
+  m_Name: Damage On Draw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 605365654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ae3bb9ffe9540ed847efc2b4ef17bdf, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5f473b33529ce40bfeaaee465c9d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageOnDrawReaction
   _isSubscribed: 0
@@ -433,6 +433,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1429213409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1429213410}
+  - component: {fileID: 1429213411}
+  m_Layer: 0
+  m_Name: Damage On Movement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1429213410
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429213409}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1830563557}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1429213411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429213409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa2c34f607846c4b9405214df6d422e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageOnMovementReaction
+  _isSubscribed: 0
 --- !u!1 &1830563556
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,6 +508,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 605365655}
+  - {fileID: 1429213410}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1890768818
@@ -581,7 +627,7 @@ Transform:
   m_GameObject: {fileID: 1899444566}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.88, z: 0}
   m_LocalScale: {x: 150.67, y: 150.67, z: 150.67}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -672,12 +718,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7431301765486620056, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
       propertyPath: baseDeck.Array.size
-      value: 9
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7431301765486620056, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
       propertyPath: 'baseDeck.Array.data[8]'
       value: 
-      objectReference: {fileID: 11400000, guid: b9edd8b7472e7bf458b80ef9866f471a, type: 2}
+      objectReference: {fileID: 11400000, guid: 56f29a6cd910a3c4a90ebd76f60713d9, type: 2}
+    - target: {fileID: 7431301765486620056, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
+      propertyPath: 'baseDeck.Array.data[9]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 56f29a6cd910a3c4a90ebd76f60713d9, type: 2}
+    - target: {fileID: 7431301765486620056, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
+      propertyPath: 'baseDeck.Array.data[10]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 56f29a6cd910a3c4a90ebd76f60713d9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
