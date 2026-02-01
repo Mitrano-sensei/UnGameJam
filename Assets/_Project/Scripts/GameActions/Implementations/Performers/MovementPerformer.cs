@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class MovementPerformer : MonoBehaviour
 {
+    private ShipSystem _shipSystem;
+
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<MovementGA>(MovementPerform);
@@ -15,10 +17,12 @@ public class MovementPerformer : MonoBehaviour
     
     private IEnumerator MovementPerform(MovementGA movementGA)
     {
-        // TODO: Impl
-        var movementType = movementGA.Movement == MovementGA.MovementType.UP ? "UP" : "DOWN";
+        _shipSystem ??= ShipSystem.Instance;
         
+        var movementType = movementGA.Movement == MovementGA.MovementType.UP ? "UP" : "DOWN";
         Debug.Log($"Move {movementType}");
+
+        _shipSystem.ShipController.PerformMovement(movementGA);
         yield return null;
     }
 }
