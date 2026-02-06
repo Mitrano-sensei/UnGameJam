@@ -16,10 +16,11 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [SerializeField, Required] private CardEffectHandler cardEffectHandler;
     private Image _image;
     private RectTransform _rectTransform;
+    private RectTransform _canvasRectTransform;
 
     public RectTransform RectTransform => _rectTransform;
     public CardEffectHandler EffectHandler => cardEffectHandler;
-    
+
     [Header("Dragging")]
     [SerializeField] private float maxSpeed = 10f;
     private Vector2 offset;
@@ -31,7 +32,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [Header("Selection")]
     private bool _isSelected;
     [SerializeField, ReadOnly] private int _cardIndex;
-    
+
     public int CardIndex => _cardIndex;
 
     [Header("Events")]
@@ -42,6 +43,11 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [HideInInspector] public UnityEvent<CardBody> BeginDragEvent;
     [HideInInspector] public UnityEvent<CardBody> EndDragEvent;
     [HideInInspector] public UnityEvent<CardBody, bool> SelectEvent;
+
+    [Header("Debug")]
+    [ShowInInspector] private Vector2 Position => _rectTransform.anchoredPosition;
+    [ShowInInspector] private Vector2 MousePos => _mouseScreenPosition;
+    [ShowInInspector] private Vector2 Offset => offset;
 
     public int ParentIndex => transform.parent.GetSiblingIndex();
 
@@ -62,13 +68,18 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private void HandleDrag()
     {
-        var localPoint = UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas);
+        Vector2 localMousePoint;
+        bool isScreenSpaceOverlay = canvas.renderMode == RenderMode.ScreenSpaceOverlay;
+
+        localMousePoint = !isScreenSpaceOverlay ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas) : _mouseScreenPosition;
+
         _oldPosition = _rectTransform.anchoredPosition;
-        var targetPosition = localPoint + offset;
-        
+        var targetPosition = localMousePoint + offset;
+
         if (Vector2.Distance(_oldPosition, targetPosition) > maxSpeed)
             targetPosition = _oldPosition + (targetPosition - _oldPosition).normalized * maxSpeed;
-        
+
+
         _rectTransform.anchoredPosition = targetPosition;
 
         if (_oldPosition != null)
@@ -118,7 +129,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void SetSelected(bool isSelected)
     {
         if (isSelected == _isSelected) return;
-        
+
         _isSelected = isSelected;
         SelectEvent?.Invoke(this, isSelected);
     }
@@ -126,6 +137,20 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void SetCardIndex(int index)
     {
         this._cardIndex = index;
+    }
+
+    /**
+     * Call this when the parent of the card body changes.
+     * Resolves an offset issue when the parent changes on ScreenSpace Overlay mode.
+     */
+    public void OnChangeParent(Transform oldParent, Transform newParent)
+    {
+        if (!_isDragging) return;
+        if (canvas.renderMode != RenderMode.ScreenSpaceOverlay) return;
+        
+        Vector2 oldParentPosition = oldParent.position;
+        Vector2 newParentPosition = newParent.position;
+        offset -= (newParentPosition - oldParentPosition);
     }
 
     #region UI Events Implementation
@@ -138,7 +163,9 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         BeginDragEvent?.Invoke(this);
 
-        var mousePos = UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas);
+        var mousePos = canvas.renderMode is RenderMode.WorldSpace or RenderMode.ScreenSpaceCamera
+            ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas)
+            : _mouseScreenPosition;
         offset = _rectTransform.anchoredPosition - mousePos;
         _isDragging = true;
 

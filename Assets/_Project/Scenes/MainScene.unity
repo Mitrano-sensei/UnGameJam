@@ -672,6 +672,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1586319188360854929, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2233269660351235695, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
       propertyPath: m_Name
       value: Card UI Setup
@@ -714,6 +718,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2716540100668815564, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539111021446424006, guid: 7f36fbb1bbeec634f9d4a1f1f9bfff50, type: 3}
+      propertyPath: m_RenderMode
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

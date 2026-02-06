@@ -94,6 +94,8 @@ public class HandManager : MonoBehaviour
         crossedCard.transform.SetParent(draggedParent);
         crossedCard.ReturnToOrigin(tweenCardReturn, .2f);
         
+        _draggedCardBody.OnChangeParent(draggedParent, crossedParent);
+        
         _draggedCardBody.SetCardIndex(toIndex);
         crossedCard.SetCardIndex(fromIndex);
 
