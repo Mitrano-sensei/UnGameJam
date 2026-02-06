@@ -12,27 +12,32 @@ public class HandManager : MonoBehaviour
 
     [SerializeField, Required] private CardSlot slotPrefab;
     [SerializeField, Required] private InputReader inputReader;
+    [SerializeField, Required] private Transform trashTransform;
     
     private RectTransform _rectTransform;
-    [SerializeField, ReadOnly] private readonly List<CardBody> _currentHand = new();
+    public Transform TrashTransform => trashTransform;
 
     [Header("Selection")]
     [SerializeField, Range(0f, 1f)] private float movementThreshhold = .1f;
     [SerializeField, Range(0f, .3f)] private float minimumTimeBetweenSelection = .15f;
     private CardBody _selectedCardBody;
     private float _lastSelectionTime;
-    
 
-    
+
     [Header("Misc")]
     [SerializeField] private bool tweenCardReturn = true;
     private bool _isCrossing;
+    
+    [Header("Debug")]
+    [SerializeField, ReadOnly] private readonly List<CardBody> _currentHand = new();
 
     void Start()
     {
         _rectTransform = GetComponent<RectTransform>();
         inputReader.Move += OnMoveInput;
         inputReader.Interact += OnInteractInput;
+        
+        Registry<HandManager>.TryAdd(this);
     }
 
     private void Update()
@@ -69,10 +74,10 @@ public class HandManager : MonoBehaviour
 
     private void InitializeCard(CardBody card, CardData cardData, int index)
     {
-        card.PointerEnterEvent.AddListener(CardPointerEnter);
-        card.PointerExitEvent.AddListener(CardPointerExit);
-        card.BeginDragEvent.AddListener(CardBeginDrag);
-        card.EndDragEvent.AddListener(CardEndDrag);
+        card.PointerEnterEvent?.AddListener(CardPointerEnter);
+        card.PointerExitEvent?.AddListener(CardPointerExit);
+        card.BeginDragEvent?.AddListener(CardBeginDrag);
+        card.EndDragEvent?.AddListener(CardEndDrag);
 
         card.SetCardData(cardData);
         card.SetCardIndex(index);
@@ -117,18 +122,26 @@ public class HandManager : MonoBehaviour
         _draggedCardBody = cardBody;
     }
 
-    private void CardEndDrag(CardBody cardBody)
+    private void CardEndDrag(CardBody cardBody, bool isPlaying)
     {
         if (_draggedCardBody == null)
             return;
 
         // Return the card to its original position
-        _draggedCardBody.ReturnToOrigin(tweenCardReturn);
+        if (!isPlaying) _draggedCardBody.ReturnToOrigin(tweenCardReturn);
 
         _rectTransform.sizeDelta += Vector2.right;
         _rectTransform.sizeDelta -= Vector2.right;
 
+        if (isPlaying) _currentHand.Remove(cardBody);
+        
         _draggedCardBody = null;
+    }
+    
+    private void CardPlayed(CardBody arg0)
+    {
+        _draggedCardBody = null;
+        _isCrossing = false;
     }
 
     private void OnMoveInput(Vector2 movement)

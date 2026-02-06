@@ -116,6 +116,8 @@ MonoBehaviour:
   cardVisual: {fileID: 5655563734265356760}
   cardEffectHandler: {fileID: 5960313400970666539}
   maxSpeed: 100
+  yDeltaBeforePlayable: 100
+  _cardIndex: 0
   PointerEnterEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -135,6 +137,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   SelectEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMoveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCardPlayedEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &5960313400970666539
@@ -297,6 +305,22 @@ MonoBehaviour:
   hoverPunchAngle: 5
   hoverTransition: 0.15
   hoverEase: 27
+  onCardPlayedTweenSettings:
+    duration: 1
+    ease: 24
+    customEase:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cycles: 1
+    cycleMode: 0
+    startDelay: 0.05
+    endDelay: 0
+    useUnscaledTime: 0
+    _useFixedUpdate: 0
+    _updateType: 0
 --- !u!222 &6087596601460655201
 CanvasRenderer:
   m_ObjectHideFlags: 0

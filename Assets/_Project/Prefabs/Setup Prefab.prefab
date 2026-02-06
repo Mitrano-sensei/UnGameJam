@@ -348,6 +348,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6590545dff4542eaa962268ad8167467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DrawCardPerformer
+--- !u!1 &5681291072403406090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2851258825341694736}
+  - component: {fileID: 677706942911595860}
+  m_Layer: 5
+  m_Name: Trash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2851258825341694736
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5681291072403406090}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 77900891812084087}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &677706942911595860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5681291072403406090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30264d69d07d4f0c8e8388a236494de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Utilities::Utilities.Note
+  note: 'Used to move objects that will be destroyed
+
+'
 --- !u!1 &7796316484389224907
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,13 +756,17 @@ PrefabInstance:
       propertyPath: inputReader
       value: 
       objectReference: {fileID: 11400000, guid: 14d190aaafb8dfe4a8fb17f83ed91952, type: 2}
+    - target: {fileID: 4223212992740764559, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: trashTransform
+      value: 
+      objectReference: {fileID: 2851258825341694736}
     - target: {fileID: 4963219895494833066, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 8081506311526759564}
     - target: {fileID: 4963219895494833066, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
       propertyPath: m_RenderMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4963219895494833066, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
       propertyPath: m_PixelPerfect
@@ -769,9 +824,33 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7205240908399733757, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205240908399733757, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205240908399733757, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205240908399733757, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 8412398092257378298, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
       propertyPath: m_Spacing
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412398092257378298, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_ChildAlignment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412398092257378298, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      propertyPath: m_Padding.m_Left
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8412398092257378298, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
       propertyPath: m_ChildForceExpandWidth
@@ -871,7 +950,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8424360205432663835, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2851258825341694736}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5047c938c3b213542b67ced1d7d6b230, type: 3}
 --- !u!224 &77900891812084087 stripped

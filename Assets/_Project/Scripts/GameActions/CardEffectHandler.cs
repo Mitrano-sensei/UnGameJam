@@ -12,19 +12,26 @@ public class CardEffectHandler : MonoBehaviour
     {
         this._cardBody = cardBody;
         this._effects = cardData.Effects;
+
+        cardBody.EndDragEvent?.AddListener(OnEndDragEvent);
     }
-    
-    
+
+    private void OnEndDragEvent(CardBody cardBody, bool isPlayed)
+    {
+        if (isPlayed) PerformEffects();
+    }
+
+
     public void PerformEffects()
     {
         var actionSystem = ActionSystem.Instance;
-        if (actionSystem.IsPerforming) return;
-
-        actionSystem.Perform(_effects, () =>
+        if (actionSystem.IsPerforming)
         {
-            Debug.Log("Done");
-        });
-        
-        // TODO: Animations & Destroy gameobject
+            Debug.Log("Was Already performing");
+            // TODO : Add queue
+            return;
+        }
+
+        actionSystem.Perform(_effects, () => { Debug.Log("Done"); });
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using EditorAttributes;
 using PrimeTween;
 using UnityEngine;
@@ -17,12 +18,14 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private Image _image;
     private RectTransform _rectTransform;
     private RectTransform _canvasRectTransform;
+    private CardData _cardData;
 
     public RectTransform RectTransform => _rectTransform;
     public CardEffectHandler EffectHandler => cardEffectHandler;
 
     [Header("Dragging")]
     [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] private float yDeltaBeforePlayable = 45f;
     private Vector2 offset;
     private Vector2 _mouseScreenPosition;
     private Vector2 _oldPosition;
@@ -41,13 +44,17 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [HideInInspector] public UnityEvent<CardBody, bool> PointerUpEvent;
     [HideInInspector] public UnityEvent<CardBody> PointerDownEvent;
     [HideInInspector] public UnityEvent<CardBody> BeginDragEvent;
-    [HideInInspector] public UnityEvent<CardBody> EndDragEvent;
+    [HideInInspector] public UnityEvent<CardBody, bool> EndDragEvent; // Bool to check if the card was played
     [HideInInspector] public UnityEvent<CardBody, bool> SelectEvent;
+    [HideInInspector] public UnityEvent<CardBody, Vector2> OnMoveEvent;
 
     [Header("Debug")]
-    [ShowInInspector] private Vector2 Position => _rectTransform.anchoredPosition;
-    [ShowInInspector] private Vector2 MousePos => _mouseScreenPosition;
-    [ShowInInspector] private Vector2 Offset => offset;
+    [ShowInInspector, HideInEditMode] private Vector2 Position
+    {
+        get { return _rectTransform != null ? _rectTransform.anchoredPosition : Vector2.zero; }
+    }
+    [ShowInInspector, HideInEditMode] private Vector2 MousePos => _mouseScreenPosition;
+    [ShowInInspector, HideInEditMode] private Vector2 Offset => offset;
 
     public int ParentIndex => transform.parent.GetSiblingIndex();
 
@@ -68,10 +75,8 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private void HandleDrag()
     {
-        Vector2 localMousePoint;
         bool isScreenSpaceOverlay = canvas.renderMode == RenderMode.ScreenSpaceOverlay;
-
-        localMousePoint = !isScreenSpaceOverlay ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas) : _mouseScreenPosition;
+        var localMousePoint = !isScreenSpaceOverlay ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas) : _mouseScreenPosition;
 
         _oldPosition = _rectTransform.anchoredPosition;
         var targetPosition = localMousePoint + offset;
@@ -83,7 +88,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         _rectTransform.anchoredPosition = targetPosition;
 
         if (_oldPosition != null)
-            cardVisual.AnimateVelocity(_rectTransform.anchoredPosition - _oldPosition);
+            OnMoveEvent?.Invoke(this, _rectTransform.anchoredPosition - _oldPosition);
     }
 
     public void ReturnToOrigin(bool tweenCardReturn, float duration = .5f)
@@ -122,6 +127,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             }
         }
 
+        _cardData = cardData;
         cardVisual.Initialize(this, cardData);
         cardEffectHandler.Initialize(this, cardData);
     }
@@ -147,7 +153,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         if (!_isDragging) return;
         if (canvas.renderMode != RenderMode.ScreenSpaceOverlay) return;
-        
+
         Vector2 oldParentPosition = oldParent.position;
         Vector2 newParentPosition = newParent.position;
         offset -= (newParentPosition - oldParentPosition);
@@ -175,11 +181,28 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        EndDragEvent?.Invoke(this);
+        EndDragEvent?.Invoke(this, _rectTransform.position.y >= yDeltaBeforePlayable);
         _isDragging = false;
 
         canvas.GetComponent<GraphicRaycaster>().enabled = true;
         _image.raycastTarget = true;
+    }
+    
+    public void ReturnToDeck()
+    {
+        DeckSystem.Instance.ReturnCard(_cardData);
+        Destroy(transform.parent.gameObject);
+    }
+
+    public void GoToTrash()
+    {
+        var parentCardSlot = transform.parent.GetComponent<CardSlot>();
+        if (!parentCardSlot)
+        {
+            Debug.LogError("No Card Slot on Card Body");
+            return;
+        }
+        parentCardSlot.GoToTrash();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

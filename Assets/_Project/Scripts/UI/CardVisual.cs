@@ -1,8 +1,7 @@
-﻿using System;
+﻿using System.Collections;
 using PrimeTween;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utilities;
 
@@ -37,6 +36,9 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private float hoverPunchAngle = 5;
     [SerializeField] private float hoverTransition = .15f;
     [SerializeField] private Ease hoverEase = Ease.OutBack;
+    
+    [Header("Play Card Parrameters")]
+    [SerializeField] private TweenSettings onCardPlayedTweenSettings;
 
     private int _savedIndex;
     
@@ -71,8 +73,10 @@ public class CardVisual : MonoBehaviour
             parentCardBody.BeginDragEvent.AddListener(OnDragEnter);
             parentCardBody.EndDragEvent.AddListener(OnDragExit);
             parentCardBody.SelectEvent.AddListener(OnSelect);
+            parentCardBody.OnMoveEvent.AddListener((body, movement) => AnimateVelocity(movement));
         }
         _image.sprite = cardData.CardImage;
+        transform.localScale = Vector3.one;
     }
 
     private void ResetRotation()
@@ -116,11 +120,21 @@ public class CardVisual : MonoBehaviour
         _savedIndex = cardBody.ParentIndex;
     }
 
-    private void OnDragExit(CardBody cardBody)
+    private void OnDragExit(CardBody cardBody, bool isPlaying)
     {
         _isDragging = false;
+        if (!isPlaying) return;
+
+        StartCoroutine(OnCardPlayed());
     }
-    
+
+    private IEnumerator OnCardPlayed()
+    {
+        parentCardBody.GoToTrash();
+        yield return Tween.Scale(transform, new TweenSettings<float>(0f, onCardPlayedTweenSettings)).ToYieldInstruction();
+        parentCardBody.ReturnToDeck();
+    }
+
     private void OnSelect(CardBody cardBody, bool isSelected)
     {
         if (isSelected)
@@ -156,7 +170,7 @@ public class CardVisual : MonoBehaviour
     }
 
 
-    public void AnimateVelocity(Vector2 velocity)
+    private void AnimateVelocity(Vector2 velocity)
     {
         var horizontalVelocity = velocity.x;
         var isRight = horizontalVelocity > 0;

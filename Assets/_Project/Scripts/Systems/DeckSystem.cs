@@ -93,4 +93,11 @@ public class DeckSystem : Singleton<DeckSystem>
     }
 
     #endregion
+
+    public void ReturnCard(CardData cardData)
+    {
+        _currentHand.Remove(cardData);
+        _currentDeck.Add(cardData);
+        
+    }
 }
