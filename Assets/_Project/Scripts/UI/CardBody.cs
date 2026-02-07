@@ -19,6 +19,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private RectTransform _rectTransform;
     private RectTransform _canvasRectTransform;
     private CardData _cardData;
+    private CanvasScaler _scaler;
 
     public RectTransform RectTransform => _rectTransform;
     public CardEffectHandler EffectHandler => cardEffectHandler;
@@ -75,12 +76,18 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private void HandleDrag()
     {
+        _scaler ??= canvas.GetComponent<CanvasScaler>();
         bool isScreenSpaceOverlay = canvas.renderMode == RenderMode.ScreenSpaceOverlay;
-        var localMousePoint = !isScreenSpaceOverlay ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas) : _mouseScreenPosition;
-
+        var localMousePoint = !isScreenSpaceOverlay 
+            ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas) 
+            : new(_mouseScreenPosition.x, _mouseScreenPosition.y);
+        
         _oldPosition = _rectTransform.anchoredPosition;
         var targetPosition = localMousePoint + offset;
 
+        if (isScreenSpaceOverlay)
+            targetPosition = new(targetPosition.x * _scaler.referenceResolution.x / Screen.width, targetPosition.y * _scaler.referenceResolution.y / Screen.height);
+        
         if (Vector2.Distance(_oldPosition, targetPosition) > maxSpeed)
             targetPosition = _oldPosition + (targetPosition - _oldPosition).normalized * maxSpeed;
 
