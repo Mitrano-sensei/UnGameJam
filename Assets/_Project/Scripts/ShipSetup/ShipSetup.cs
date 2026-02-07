@@ -66,6 +66,11 @@ public class ShipSetup : MonoBehaviour
         _ship.Initialize(this, _spawnPositionIndex);
     }
 
+    private void OnDisable()
+    {
+        Registry<ShipSetup>.TryRemove(this);
+    }
+
     private void OnDistanceBetweenRowsChanged()
     {
         if (!Application.IsPlaying(this)) return;

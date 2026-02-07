@@ -272,7 +272,9 @@ MonoBehaviour:
   handSize: 5
   _currentHand: []
   _currentDeck: []
-  _initOnStart: 1
+  initOnStart: 1
+  drawOnInit: 1
+  initialDrawPercent: 75
 --- !u!1 &5248622028550166815
 GameObject:
   m_ObjectHideFlags: 0

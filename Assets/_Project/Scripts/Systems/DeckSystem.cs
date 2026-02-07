@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EditorAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utilities;
 
 public class DeckSystem : MonoBehaviour
@@ -35,7 +36,11 @@ public class DeckSystem : MonoBehaviour
     [SerializeField, ReadOnly] private List<CardData> _currentDeck = new();
 
     [Header("Misc")]
-    [SerializeField] private bool _initOnStart = true;
+    [SerializeField] private bool initOnStart = true;
+    [SerializeField] private bool drawOnInit = true;
+    
+    [EnableField(nameof(drawOnInit))]
+    [SerializeField, Range(1, 100)] private int initialDrawPercent;
     
     private static readonly System.Random _rng = new System.Random();
 
@@ -52,14 +57,21 @@ public class DeckSystem : MonoBehaviour
 
     private void Start()
     {
-        if (_initOnStart) Initialize();
+        if (initOnStart) Initialize();
+    }
+    
+    private void OnDisable()
+    {
+        Registry<DeckSystem>.TryRemove(this);
     }
 
     private void Initialize()
     {
         _currentDeck = baseDeck;
         ShuffleDeck();
-        Draw(handSize);
+
+        if (!drawOnInit) return;
+        Draw(Mathf.FloorToInt(handSize * initialDrawPercent * .01f));
     }
 
     private void ShuffleDeck()
@@ -83,6 +95,18 @@ public class DeckSystem : MonoBehaviour
             
             MyHandManager.AddCardToHand(drawnCard, true);
         }
+    }
+
+    public bool CanDraw()
+    {
+        return _currentHand.Count < handSize;
+    }
+
+    public void ReturnCard(CardData cardData)
+    {
+        _currentHand.Remove(cardData);
+        _currentDeck.Add(cardData);
+        
     }
 
     #region Debug
@@ -117,11 +141,4 @@ public class DeckSystem : MonoBehaviour
     }
 
     #endregion
-
-    public void ReturnCard(CardData cardData)
-    {
-        _currentHand.Remove(cardData);
-        _currentDeck.Add(cardData);
-        
-    }
 }

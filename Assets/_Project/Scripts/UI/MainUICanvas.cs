@@ -7,4 +7,9 @@ public class MainUICanvas : MonoBehaviour
     {
         Registry<MainUICanvas>.TryAdd(this);
     }
+    
+    private void OnDisable()
+    {
+        Registry<MainUICanvas>.TryRemove(this);
+    }
 }

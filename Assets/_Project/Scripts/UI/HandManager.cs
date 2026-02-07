@@ -73,6 +73,11 @@ public class HandManager : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        Registry<HandManager>.TryRemove(this);
+    }
+
     public void AddCardToHand(CardData cardData, bool isDraw = false)
     {
         CardSlot slot = Instantiate(slotPrefab, transform);

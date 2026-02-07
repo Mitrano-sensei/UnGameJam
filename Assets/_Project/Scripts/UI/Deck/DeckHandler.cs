@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EditorAttributes;
 using UnityEngine;
 using Utilities;
 
@@ -7,6 +8,7 @@ public class DeckHandler : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private Transform _returnPosition;
+    [SerializeField, Required] private DPSMeter dpsMeter;
     
     public Transform ReturnPosition => _returnPosition;
     
@@ -19,5 +21,15 @@ public class DeckHandler : MonoBehaviour
         }
         
         Registry<DeckHandler>.TryAdd(this);
+    }
+
+    public void Start()
+    {
+        if (dpsMeter != null) dpsMeter.Initialize(Registry<DeckSystem>.GetFirst());
+    }
+    
+    private void OnDisable()
+    {
+        Registry<DeckHandler>.TryRemove(this);
     }
 }
