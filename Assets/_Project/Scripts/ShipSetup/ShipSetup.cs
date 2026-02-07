@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using EditorAttributes;
 using UnityEngine;
+using Utilities;
 
 public class ShipSetup : MonoBehaviour
 {
@@ -20,6 +23,17 @@ public class ShipSetup : MonoBehaviour
     public ShipController ShipController => _ship;
 
     private ShipRow[] _shipRows;
+
+    private void Awake()
+    {
+        if (Registry<ShipSetup>.All.Any())
+        {
+            Debug.LogError("There is already a ship setup in the scene, only one is allowed at a time");
+            return;
+        }
+        
+        Registry<ShipSetup>.TryAdd(this);
+    }
 
     private void Start()
     {

@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Utilities;
 
 public class DrawCardPerformer : MonoBehaviour
 {
+    private DeckSystem _deckSystem;
+
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<DrawCardGA>(DrawCardPerform);
@@ -15,8 +18,10 @@ public class DrawCardPerformer : MonoBehaviour
 
     private IEnumerator DrawCardPerform(DrawCardGA drawCardGA)
     {
-        // TODO: Impl
         Debug.Log($"Draw {drawCardGA.Amount} Card");
+        var amount = drawCardGA.Amount;
+        _deckSystem ??= Registry<DeckSystem>.GetFirst();
+        _deckSystem.Draw(amount);
         yield return null;
     }
 }

@@ -4,8 +4,19 @@ using Utilities;
 public class ShipSystem : Singleton<ShipSystem>
 {
     [Header("References")]
-    [SerializeField] private ShipSetup _shipSetup;
+    private ShipSetup _shipSetup;
 
-    public ShipController ShipController => _shipSetup.ShipController;
-
+    public ShipController ShipController
+    {
+        get
+        {
+            _shipSetup ??= Registry<ShipSetup>.GetFirst();
+            if (!_shipSetup)
+            {
+                Debug.LogError("No ship setup found");
+                return null;
+            }
+            return _shipSetup.ShipController;
+        }
+    }
 }

@@ -1,19 +1,23 @@
 using UnityEngine;
-using Utilities;
 
 public class CardSlot : MonoBehaviour
 {
     private CardBody cardBody;
     public CardBody CardBody => cardBody;
+    public HandManager _handManager;
 
     private void Start()
     {
         cardBody = GetComponentInChildren<CardBody>();
     }
 
+    public void Initialize(HandManager manager)
+    {
+        _handManager = manager;
+    }
+    
     public void GoToTrash()
     {
-        var handManager = Registry<HandManager>.GetFirst();
-        transform.SetParent(handManager.TrashTransform);
+        transform.SetParent(_handManager.TrashTransform);
     }
 }

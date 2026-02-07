@@ -2,8 +2,10 @@
 using PrimeTween;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utilities;
+using Sequence = PrimeTween.Sequence;
 
 public class CardVisual : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class CardVisual : MonoBehaviour
     private Image _image;
     private Tween _punchTween;
     private RectTransform _rectTransform;
+    private Transform _deckPosition;
     private Vector2 _mouseScreenPosition;
     private Canvas _canvas;
     private Vector2 LocalMousePosition => UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, _canvas);
@@ -38,7 +41,8 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private Ease hoverEase = Ease.OutBack;
     
     [Header("Play Card Parrameters")]
-    [SerializeField] private TweenSettings onCardPlayedTweenSettings;
+    [SerializeField] private TweenSettings onCardPlayedScaleTweenSettings;
+    [SerializeField] private TweenSettings onCardPlayedPositionTweenSettings;
 
     private int _savedIndex;
     
@@ -131,7 +135,14 @@ public class CardVisual : MonoBehaviour
     private IEnumerator OnCardPlayed()
     {
         parentCardBody.GoToTrash();
-        yield return Tween.Scale(transform, new TweenSettings<float>(0f, onCardPlayedTweenSettings)).ToYieldInstruction();
+        _deckPosition ??= Registry<DeckHandler>.GetFirst().ReturnPosition;
+        
+
+        var sequence = Sequence
+            .Create(Tween.Scale(transform, new TweenSettings<float>(0f, onCardPlayedScaleTweenSettings)))
+            .Group(Tween.Position(transform, new(_deckPosition.position, onCardPlayedPositionTweenSettings)));
+        
+        yield return sequence.ToYieldInstruction();
         parentCardBody.ReturnToDeck();
     }
 

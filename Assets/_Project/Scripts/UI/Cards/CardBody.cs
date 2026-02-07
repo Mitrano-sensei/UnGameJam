@@ -20,6 +20,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private RectTransform _canvasRectTransform;
     private CardData _cardData;
     private CanvasScaler _scaler;
+    private DeckSystem _deckSystem;
 
     public RectTransform RectTransform => _rectTransform;
     public CardEffectHandler EffectHandler => cardEffectHandler;
@@ -59,12 +60,16 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public int ParentIndex => transform.parent.GetSiblingIndex();
 
+    private void Awake()
+    {
+        _image = this.GetComponentOrException<Image>();
+        _rectTransform = GetComponent<RectTransform>();
+    }
+
     private void Start()
     {
         if (canvas == null)
             canvas = Registry<MainUICanvas>.GetFirst().GetComponent<Canvas>();
-        _image = this.GetComponentOrException<Image>();
-        _rectTransform = GetComponent<RectTransform>();
 
         inputReader.Point += (p, isMouse) => _mouseScreenPosition = isMouse ? p : Vector2.zero;
     }
@@ -197,7 +202,8 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     
     public void ReturnToDeck()
     {
-        DeckSystem.Instance.ReturnCard(_cardData);
+        _deckSystem ??= Registry<DeckSystem>.GetFirst();
+        _deckSystem.ReturnCard(_cardData);
         Destroy(transform.parent.gameObject);
     }
 

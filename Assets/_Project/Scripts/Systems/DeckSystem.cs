@@ -4,11 +4,26 @@ using EditorAttributes;
 using UnityEngine;
 using Utilities;
 
-public class DeckSystem : Singleton<DeckSystem>
+public class DeckSystem : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField, Required] private InputReader inputReader;
-    [SerializeField, Required] private HandManager handManager;
+    private HandManager _handManager;
+    
+    private HandManager MyHandManager
+    {
+        get
+        {
+            _handManager ??= Registry<HandManager>.GetFirst();
+            if (_handManager == null)
+            {
+                Debug.LogError("No Hand Manager found in the scene, please add one and try again");
+                return null;
+            }
+
+            return _handManager;
+        }
+    }
 
     [Header("Base Deck")]
     [SerializeField] private List<CardData> baseDeck;
@@ -23,6 +38,17 @@ public class DeckSystem : Singleton<DeckSystem>
     [SerializeField] private bool _initOnStart = true;
     
     private static readonly System.Random _rng = new System.Random();
+
+    private void Awake()
+    {
+        if (Registry<DeckSystem>.All.Any())
+        {
+            Debug.LogError("There is already a deck system in the scene, only one is allowed at a time");
+            return;
+        }
+        
+        Registry<DeckSystem>.TryAdd(this);
+    }
 
     private void Start()
     {
@@ -44,7 +70,7 @@ public class DeckSystem : Singleton<DeckSystem>
     }
 
 
-    private void Draw(int amount = 1)
+    public void Draw(int amount = 1)
     {
         for (int i = 0; i < amount; i++)
         {
@@ -55,10 +81,8 @@ public class DeckSystem : Singleton<DeckSystem>
             _currentHand.Add(drawnCard);
             _currentDeck.Remove(drawnCard);
             
-            handManager.AddCardToHand(drawnCard);
+            MyHandManager.AddCardToHand(drawnCard, true);
         }
-        
-        // TODO: Animation 
     }
 
     #region Debug

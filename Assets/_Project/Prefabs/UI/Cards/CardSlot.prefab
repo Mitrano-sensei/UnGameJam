@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41fe45e5c9b42c49b0ef4ba6e774436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardSlot
+  _handManager: {fileID: 0}
 --- !u!1 &4223561344345527012
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,9 +141,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnMoveEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnCardPlayedEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &5960313400970666539
@@ -305,9 +303,9 @@ MonoBehaviour:
   hoverPunchAngle: 5
   hoverTransition: 0.15
   hoverEase: 27
-  onCardPlayedTweenSettings:
-    duration: 1
-    ease: 24
+  onCardPlayedScaleTweenSettings:
+    duration: 0.5
+    ease: 0
     customEase:
       serializedVersion: 2
       m_Curve: []
@@ -316,7 +314,23 @@ MonoBehaviour:
       m_RotationOrder: 4
     cycles: 1
     cycleMode: 0
-    startDelay: 0.05
+    startDelay: 0.1
+    endDelay: 0
+    useUnscaledTime: 0
+    _useFixedUpdate: 0
+    _updateType: 0
+  onCardPlayedPositionTweenSettings:
+    duration: 0.5
+    ease: 3
+    customEase:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cycles: 1
+    cycleMode: 0
+    startDelay: 0
     endDelay: 0
     useUnscaledTime: 0
     _useFixedUpdate: 0

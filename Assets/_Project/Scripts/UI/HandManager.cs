@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EditorAttributes;
@@ -13,7 +14,8 @@ public class HandManager : MonoBehaviour
     [SerializeField, Required] private CardSlot slotPrefab;
     [SerializeField, Required] private InputReader inputReader;
     [SerializeField, Required] private Transform trashTransform;
-    
+
+    private Transform _deckPosition;
     private RectTransform _rectTransform;
     public Transform TrashTransform => trashTransform;
 
@@ -31,13 +33,21 @@ public class HandManager : MonoBehaviour
     [Header("Debug")]
     [SerializeField, ReadOnly] private readonly List<CardBody> _currentHand = new();
 
+    private void Awake()
+    {
+        if (Registry<HandManager>.All.Any())
+        {
+            Debug.LogError("There is already a hand manager in the scene, only one is allowed at a time");
+            return;
+        }
+        Registry<HandManager>.TryAdd(this);
+    }
+
     void Start()
     {
         _rectTransform = GetComponent<RectTransform>();
         inputReader.Move += OnMoveInput;
         inputReader.Interact += OnInteractInput;
-        
-        Registry<HandManager>.TryAdd(this);
     }
 
     private void Update()
@@ -63,13 +73,21 @@ public class HandManager : MonoBehaviour
         }
     }
 
-    public void AddCardToHand(CardData cardData)
+    public void AddCardToHand(CardData cardData, bool isDraw = false)
     {
         CardSlot slot = Instantiate(slotPrefab, transform);
         CardBody card = slot.GetComponentInChildren<CardBody>();
+        slot.Initialize(this);
         _currentHand.Add(card);
         
         InitializeCard(card, cardData, _currentHand.Count - 1);
+
+        if (!isDraw) return;
+        
+        // Animation
+        _deckPosition ??= Registry<DeckHandler>.GetFirst().ReturnPosition;
+        card.transform.position = _deckPosition.position;
+        card.ReturnToOrigin(true);
     }
 
     private void InitializeCard(CardBody card, CardData cardData, int index)
