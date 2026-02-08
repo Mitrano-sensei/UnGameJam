@@ -50,6 +50,9 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [HideInInspector] public UnityEvent<CardBody, bool> SelectEvent;
     [HideInInspector] public UnityEvent<CardBody, Vector2> OnMoveEvent;
 
+    [Header("Draw")]
+    [SerializeField] private TweenSettings drawScaleTweenSettings;
+    
     [Header("Debug")]
     [ShowInInspector, HideInEditMode] private Vector2 Position
     {
@@ -103,7 +106,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             OnMoveEvent?.Invoke(this, _rectTransform.anchoredPosition - _oldPosition);
     }
 
-    public void ReturnToOrigin(bool tweenCardReturn, float duration = .5f)
+    public void ReturnToOrigin(bool tweenCardReturn, float duration = .5f, bool isDraw = false)
     {
         if (_rectTransform.anchoredPosition == Vector2.zero)
             return;
@@ -113,8 +116,19 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             _rectTransform.anchoredPosition = Vector2.zero;
             return;
         }
+        
+        var tween = Tween.UIAnchoredPosition(_rectTransform, Vector2.zero, duration);
 
-        Tween.UIAnchoredPosition(_rectTransform, Vector2.zero, duration);
+        if (isDraw)
+        {
+            var oldScale = cardVisual.transform.localScale;
+            Sequence.Create()
+                .ChainCallback(() => cardVisual.transform.localScale = Vector3.one * .1f)
+                .Chain(tween)
+                .Group(Tween.Scale(cardVisual.transform, new TweenSettings<float>(1f, drawScaleTweenSettings)) // TODO: FIXME
+                    .OnComplete(() => cardVisual.transform.localScale = oldScale));
+        }
+            
     }
 
     public void SetCardData(CardData cardData)

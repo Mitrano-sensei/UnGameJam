@@ -92,7 +92,7 @@ public class HandManager : MonoBehaviour
         // Animation
         _deckPosition ??= Registry<DeckHandler>.GetFirst().ReturnPosition;
         card.transform.position = _deckPosition.position;
-        card.ReturnToOrigin(true);
+        card.ReturnToOrigin(true, isDraw: true);
     }
 
     private void InitializeCard(CardBody card, CardData cardData, int index)

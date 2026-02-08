@@ -27,7 +27,7 @@ public class DeckSystem : MonoBehaviour
     }
 
     [Header("Base Deck")]
-    [SerializeField] private List<CardData> baseDeck;
+    [SerializeField] private BaseDeck baseDeck;
 
     [Header("Deck")]
     [SerializeField] private int handSize;
@@ -67,7 +67,8 @@ public class DeckSystem : MonoBehaviour
 
     private void Initialize()
     {
-        _currentDeck = baseDeck;
+        _currentDeck = baseDeck.Cards.ToList();
+        // TODO : Add purchased cards
         ShuffleDeck();
 
         if (!drawOnInit) return;
@@ -77,8 +78,6 @@ public class DeckSystem : MonoBehaviour
     private void ShuffleDeck()
     {
         _currentDeck = _currentDeck.OrderBy((c) => _rng.Next()).ToList();
-
-        // TODO: Animation?
     }
 
 

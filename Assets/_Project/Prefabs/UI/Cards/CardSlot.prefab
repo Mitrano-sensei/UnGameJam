@@ -143,6 +143,22 @@ MonoBehaviour:
   OnMoveEvent:
     m_PersistentCalls:
       m_Calls: []
+  drawScaleTweenSettings:
+    duration: 0.5
+    ease: 30
+    customEase:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cycles: 1
+    cycleMode: 0
+    startDelay: 0
+    endDelay: 0
+    useUnscaledTime: 0
+    _useFixedUpdate: 0
+    _updateType: 0
 --- !u!114 &5960313400970666539
 MonoBehaviour:
   m_ObjectHideFlags: 0
