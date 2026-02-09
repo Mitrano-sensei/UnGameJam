@@ -8,7 +8,7 @@ public class DemoMainMenuManager : MonoBehaviour
             .NewTransition()
             .Load(DemoSceneDatabase.Slots.Session, DemoSceneDatabase.Scenes.Session)
             .Load(DemoSceneDatabase.Slots.SessionContent, DemoSceneDatabase.Scenes.Shop, setActive: true)
-            .Unload(DemoSceneDatabase.Scenes.Menu)
+            .Unload(DemoSceneDatabase.Slots.Menu)
             .WithOverlay()
             .WithClearUnusedAssets()
             .Perform();

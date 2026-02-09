@@ -1,5 +1,8 @@
-﻿public static class DemoSceneDatabase
+using UnityEngine;
+
+public static class SceneDatabase 
 {
+
     public class Slots
     {
         public const string Menu = "Menu";
@@ -9,9 +12,9 @@
     
     public class Scenes
     {
-        public const string Menu = "DemoMenu";
-        public const string Shop = "DemoShop";
-        public const string Combat = "DemoCombat";
-        public const string Session = "DemoSession";
+        public const string Menu = "Menu";
+        public const string Shop = "Shop";
+        public const string Combat = "Combat";
+        public const string Session = "Session";
     }
 }
