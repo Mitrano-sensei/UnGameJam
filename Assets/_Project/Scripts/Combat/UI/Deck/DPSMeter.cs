@@ -16,7 +16,7 @@ public class DPSMeter : MonoBehaviour
     private DeckSystem _deckSystem;
     private LoopTimer _loopTimer;
     
-    private float DrawPeriod => 1f / startDPS;
+    private float DrawPeriod => 1f / _currentDPS;
     
     
     [Header("Events")]
@@ -28,9 +28,17 @@ public class DPSMeter : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool isDebug;
 
-    private void Awake()
+    private void Update()
+    {
+        if (_loopTimer == null) return;
+        _loopTimer.Tick(Time.deltaTime);
+        slider.SetCurrentValue(_loopTimer.GetCurrentTime());
+    }
+
+    public void Initialize(DeckSystem deckSystem)
     {
         _currentDPS = startDPS;
+        // TODO : Add Stats
         
         slider.SetMaxValue(DrawPeriod);
         slider.SetCurrentValue(0f);
@@ -39,25 +47,26 @@ public class DPSMeter : MonoBehaviour
         _loopTimer.OnLoop += () => OnDPSFinished?.Invoke();
         
         // Debug
-        if (!isDebug) return;
-        _loopTimer.OnTimerStart += () => Debug.Log("Starting");
-        _loopTimer.OnLoop += () => Debug.Log("Loop");
-    }
-
-    private void Update()
-    {
-        _loopTimer.Tick(Time.deltaTime);
-        slider.SetCurrentValue(_loopTimer.GetCurrentTime());
-    }
-
-    public void Initialize(DeckSystem deckSystem)
-    {
+        _loopTimer.OnTimerStart += () =>
+        {
+            if (!isDebug) return;
+            Debug.Log("Starting");
+        };
+        _loopTimer.OnLoop += () =>
+        {
+            if (!isDebug) return;
+            Debug.Log("Loop");
+        };
+        _loopTimer.OnLoopDenied += () =>
+        {
+            if (!isDebug) return;
+            Debug.Log("Loop Denied");
+        };
+        
         _deckSystem = deckSystem;
         
         OnDPSFinished.AddListener(HandleDraw);
         _loopTimer.LoopCondition.Add(IsDrawPossible);
-        
-        if (drawOnInit) _loopTimer.Start();
     }
 
     private bool IsDrawPossible()

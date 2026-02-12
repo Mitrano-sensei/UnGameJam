@@ -123,6 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1365080118570719991}
   - component: {fileID: 5849039175244016272}
+  - component: {fileID: 3504533565101734101}
   m_Layer: 0
   m_Name: CoreSystem
   m_TagString: Untagged
@@ -157,6 +158,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02b303ef5d34a249851af30ebe82cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem
+  coreSceneManager: {fileID: 3504533565101734101}
+--- !u!114 &3504533565101734101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6315282543931712084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 092f00e95c894ce4bd66660998a84239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSceneManager
 --- !u!1 &8269948840677077674
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using EditorAttributes;
 using UnityEngine;
@@ -39,6 +38,12 @@ public class BootstrapLoader : MonoBehaviour
             
             loadable.UnLoadWithScene();
         }
+    }
+
+    [Button]
+    public void CopyLoadToUnLoad()
+    {
+        toUnLoad = toLoad;
     }
 }
 

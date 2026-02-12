@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29e9e4fe3744bd1a5dbdea94b657aa9, type: 3}
+  m_Name: ExampleCardBundle
+  m_EditorClassIdentifier: Assembly-CSharp::CardBundle
+  previewPrefab: {fileID: 1325321794348133552, guid: c44e767529fead94495ed375ebe061f1, type: 3}
+  spawnTweenSettings:
+    duration: 1
+    ease: 0
+    customEase:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cycles: 1
+    cycleMode: 0
+    startDelay: 0
+    endDelay: 0
+    useUnscaledTime: 0
+    _useFixedUpdate: 0
+    _updateType: 0
+  _cards:
+  - {fileID: 11400000, guid: 56f29a6cd910a3c4a90ebd76f60713d9, type: 2}
+  - {fileID: 11400000, guid: 79d00bc4fb0ea984981b444243448249, type: 2}

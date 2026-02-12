@@ -8,29 +8,28 @@ public class CombatManager : MonoBehaviour, ILoadable
 
     public void LoadWithScene()
     {
-        if (Registry<CombatManager>.All.Any())
-        {
-            Debug.LogError("There is already a combat manager in the scene, only one is allowed at a time");
-            return;
-        }
-        Registry<CombatManager>.TryAdd(this);
+        Registry<CombatManager>.RegisterSingletonOrLogError(this);
         
+        // Initialize Deck
         var deckSystem = Registry<DeckSystem>.GetFirst();
-        if (deckSystem == null)
-        {
-            Debug.LogError("No Deck System registered :(");
-            return;
-        }
-        deckSystem.Initialize();
+        if (deckSystem == null) Debug.LogError("No Deck System registered :(");
+        else deckSystem.Initialize();
+        
+        // DPS
+        var deckHandler = Registry<DeckHandler>.GetFirst();
+        if (deckHandler == null) Debug.LogError("No Deck Handler registered :(");
+        else deckHandler.DPSMeter.StartDPS();
     }
 
     public void UnLoadWithScene()
     {
-        Registry<CombatManager>.TryRemove(this);
-    }
-
-    private void Start()
-    {
+        var deckSystem = Registry<DeckSystem>.GetFirst();
+        if (deckSystem == null)
+        {
+            Debug.LogWarning("No Deck System registered :/");
+        }
+        else deckSystem.OnEndCombatPHase();
         
+        Registry<CombatManager>.TryRemove(this);
     }
 }

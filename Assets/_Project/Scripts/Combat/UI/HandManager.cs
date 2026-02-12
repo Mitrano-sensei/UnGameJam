@@ -35,12 +35,7 @@ public class HandManager : MonoBehaviour, ILoadable
 
     public void LoadWithScene()
     {
-        if (Registry<HandManager>.All.Any())
-        {
-            Debug.LogError("There is already a hand manager in the scene, only one is allowed at a time");
-            return;
-        }
-        Registry<HandManager>.TryAdd(this);
+        Registry<HandManager>.RegisterSingletonOrLogError(this);
     }
 
     public void UnLoadWithScene()
