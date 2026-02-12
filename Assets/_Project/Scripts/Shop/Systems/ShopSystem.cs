@@ -48,42 +48,64 @@ public class ShopSystem: MonoBehaviour, ILoadable
         Registry<ShopSystem>.TryRemove(this);
     }
 
+    private List<APreview> _cardPreviewReferences = new List<APreview>();
+    private List<APreview> _relicPreviewReferences = new List<APreview>();
+    
     [Button]
     public void GenerateShopItems()
     {
+        DestroyBuyableItems();
+        
         _availableCards = _possibleCards.Shuffle().GetRange(0, _cardBundleSlots.Count);
         _availableRelics = _possibleRelics.Shuffle().GetRange(0, _relicSlots.Count);
 
         for (var index = 0; index < _availableRelics.Count; index++)
         {
             var relic = _availableRelics[index];
-            InitPreview(relic, index, true);
+            var preview = InitPreview(relic, index, true);
+            
+            if (preview == null) continue;
+            _relicPreviewReferences.Add(preview);
         }    
         
 
         for (var index = 0; index < _availableCards.Count; index++)
         {
             var card = _availableCards[index];
-            InitPreview(card, index, false);
+            var preview = InitPreview(card, index, false);
+            
+            if (preview == null) continue;
+            _cardPreviewReferences.Add(preview);
         }
     }
 
-    private void InitPreview(BuyableItem buyableItem, int index, bool isRelic)
+    private void DestroyBuyableItems()
+    {
+        _cardPreviewReferences.ForEach(p => p.DestroySelf());
+        _relicPreviewReferences.ForEach(p => p.DestroySelf());
+        
+        _cardPreviewReferences.Clear();
+        _relicPreviewReferences.Clear();
+    }
+
+    private APreview InitPreview(BuyableItem buyableItem, int index, bool isRelic)
     {
         switch (isRelic)
         {
             case true when index >= _relicSlots.Count:
                 Debug.LogError("Index out of bounds, skipping");
-                return;
+                return null;
             case false when index >= _cardBundleSlots.Count:
                 Debug.LogError("Index out of bounds, skipping");
-                return;
+                return null;
         }
         
         var parentSlot = isRelic ? _relicSlots[index] : _cardBundleSlots[index];
         var preview = buyableItem.GeneratePreview();
         preview.transform.SetParent(parentSlot);
         preview.transform.localPosition = Vector3.zero;
+
+        return preview;
     }
 
     public void BuyRelic(RelicData relic)

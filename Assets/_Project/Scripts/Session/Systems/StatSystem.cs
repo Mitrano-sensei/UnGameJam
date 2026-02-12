@@ -12,9 +12,18 @@ public class StatSystem : MonoBehaviour, ILoadable
     private Dictionary<StatType, int> _statModifiers = new();
     private UnityEvent<StatType, int, int> _onStatChanged = new();
     
+    [SerializeField] private bool isDebug;
+    
     public void LoadWithScene()
     {
         Registry<StatSystem>.RegisterSingletonOrLogError(this);
+        
+        _onStatChanged.AddListener((type, o, n) =>
+        {
+            if (!isDebug) return;
+            
+            Debug.Log($"Stat {type} changed from {o} to {n}");
+        });
     }
 
     public void UnLoadWithScene()
@@ -34,6 +43,7 @@ public class StatSystem : MonoBehaviour, ILoadable
 
         _onStatChanged.Invoke(type, oldValue, oldValue + value);
     }
+    public void RemoveStatModifier(StatType statType, int amount) => AddStatModifier(statType, -amount);
     
     public void AddStatListener(UnityAction<StatType, int, int> listener) => _onStatChanged.AddListener(listener);
     public void RemoveStatListener(UnityAction<StatType, int, int> listener) => _onStatChanged.RemoveListener(listener);
@@ -45,4 +55,5 @@ public class StatSystem : MonoBehaviour, ILoadable
         HandSize,
         MoneyPerCombat
     }
+
 }

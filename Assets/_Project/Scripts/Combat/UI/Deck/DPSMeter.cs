@@ -37,8 +37,14 @@ public class DPSMeter : MonoBehaviour
 
     public void Initialize(DeckSystem deckSystem)
     {
-        _currentDPS = startDPS;
-        // TODO : Add Stats
+        var statSystem = Registry<StatSystem>.GetFirst();
+        if (statSystem == null)
+        {
+            Debug.LogError("No Stat System registered :(");
+            return;
+        }
+        _currentDPS = startDPS + statSystem.GetStatModifierValue(StatSystem.StatType.DrawPerSecond);
+        statSystem.AddStatListener(OnDPSChanged);
         
         slider.SetMaxValue(DrawPeriod);
         slider.SetCurrentValue(0f);
@@ -67,6 +73,16 @@ public class DPSMeter : MonoBehaviour
         
         OnDPSFinished.AddListener(HandleDraw);
         _loopTimer.LoopCondition.Add(IsDrawPossible);
+    }
+
+    private void OnDPSChanged(StatSystem.StatType type, int old, int newV)
+    {
+        if (type != StatSystem.StatType.DrawPerSecond) return;
+        _currentDPS = startDPS + newV;
+        
+        slider.SetMaxValue(DrawPeriod);
+        slider.SetCurrentValue(0f);
+        _loopTimer.Start(DrawPeriod);
     }
 
     private bool IsDrawPossible()

@@ -12,4 +12,5 @@ public abstract class APreview : MonoBehaviour
     [SerializeField] protected UnityEvent onClick = new();
     
     public void AddClickEvent(UnityAction unityAction) => onClick.AddListener(unityAction);
+    public abstract void DestroySelf();
 }

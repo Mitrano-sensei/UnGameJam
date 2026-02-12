@@ -6,7 +6,9 @@ using Utilities;
 
 public class MoneySystem : MonoBehaviour, ILoadable
 {
-    private int _money = 0;
+    [SerializeField] private int baseMoney = 4;
+    
+    private int _money;
     public int Money
     {
         get => _money;
@@ -22,6 +24,7 @@ public class MoneySystem : MonoBehaviour, ILoadable
     {
         Registry<MoneySystem>.RegisterSingletonOrLogError(this);
         
+        _money = baseMoney;
         OnMoneyChanged.AddListener(e => { if (isDebug) Debug.Log($"Money changed from {e.OldMoney} to {e.NewMoney}"); });
     }
 

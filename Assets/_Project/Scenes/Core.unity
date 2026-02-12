@@ -315,30 +315,6 @@ PrefabInstance:
       propertyPath: loadingOverlay
       value: 
       objectReference: {fileID: 152292237}
-    - target: {fileID: 3664624927648547712, guid: 2c981b34f7b17874db7a9fca396fa9e8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3664624927648547712, guid: 2c981b34f7b17874db7a9fca396fa9e8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3664624927648547712, guid: 2c981b34f7b17874db7a9fca396fa9e8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3664624927648547712, guid: 2c981b34f7b17874db7a9fca396fa9e8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3664624927648547712, guid: 2c981b34f7b17874db7a9fca396fa9e8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3664624927648547712, guid: 2c981b34f7b17874db7a9fca396fa9e8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3753715300984880124, guid: 2c981b34f7b17874db7a9fca396fa9e8, type: 3}
       propertyPath: m_Name
       value: CoreSystems

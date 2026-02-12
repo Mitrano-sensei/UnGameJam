@@ -70,7 +70,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
         _isInitialized = true;
         
         if (!drawOnInit) return;
-        Draw(Mathf.FloorToInt(baseHandSize * initialDrawPercent * .01f));
+        Draw(Mathf.FloorToInt(_currentHandSize * initialDrawPercent * .01f));
     }
 
     private void ShuffleDeck()
@@ -91,7 +91,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
 
         for (int i = 0; i < amount; i++)
         {
-            if (_currentHand.Count >= baseHandSize) return;
+            if (_currentHand.Count >= _currentHandSize) return;
             if (_currentDeck.Count == 0) return;
 
             var drawnCard = _currentDeck[0];
@@ -104,7 +104,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
 
     public bool CanDraw()
     {
-        return _isInitialized && _currentHand.Count < baseHandSize;
+        return _isInitialized && _currentHand.Count < _currentHandSize;
     }
 
     public void ReturnCard(CardData cardData)
@@ -121,7 +121,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
         onHandSizeChanged.Invoke(oldValue, _currentHandSize);
     }
 
-    public void OnEndCombatPHase()
+    public void OnEndCombatPhase()
     {
         _isInitialized = false;
     }

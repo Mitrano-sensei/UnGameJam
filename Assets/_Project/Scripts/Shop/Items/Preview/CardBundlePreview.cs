@@ -57,8 +57,7 @@ public class CardBundlePreview : APreview
         Tween.Scale(transformToScale, new TweenSettings<float>(1f, hoverTweenSettings));
     }
 
-    [Button]
-    public void DestroySelf()
+    public override void DestroySelf()
     {
         StartCoroutine(ScaleThenDestroy());
     }
