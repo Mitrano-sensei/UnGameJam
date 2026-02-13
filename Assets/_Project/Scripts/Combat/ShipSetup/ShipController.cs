@@ -3,18 +3,31 @@ using System.Collections.Generic;
 using EditorAttributes;
 using PrimeTween;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Utilities;
 
-public class ShipController : MonoBehaviour
+public class ShipController : MonoBehaviour, IDamageable
 {
+    [Header("References")]
+    [SerializeField] private Transform modelTransform;
+    
     [Header("Movements")]
     [SerializeField] private TweenSettings movementTweenSettings;
 
+    [Header("Fire")]
+    [SerializeField] private TweenSettings fireScaleTweenSetting;
+    [SerializeField] private float fireTweenScaleFactor = .6f;
+    [SerializeField] private SimpleBullet simpleBulletPrefab;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private float bulletSpeed = 10f;
+    
     private ShipSetup _shipSetup;
     private bool _isMoving;
 
     public int CurrentIndex { get; set; }
 
     private readonly Queue<MovementGA> _moveQueue = new Queue<MovementGA>();
+    private HealthSystem _healthSystem;
 
 
     private void Update()
@@ -47,36 +60,29 @@ public class ShipController : MonoBehaviour
         CurrentIndex = startIndex;
     }
 
-    [Button]
-    public void GoUp()
-    {
-        if (!Application.IsPlaying(this)) return;        
-        
-        var movement = new MovementGA
-        {
-            Movement = MovementGA.MovementType.UP,
-            Amount = 1
-        };
-
-        _moveQueue.Enqueue(movement);
-    }
-
-    [Button]
-    public void GoDown()
-    {
-        if (!Application.IsPlaying(this)) return;        
-
-        var movement = new MovementGA
-        {
-            Movement = MovementGA.MovementType.DOWN,
-            Amount = 1
-        };
-
-        _moveQueue.Enqueue(movement);
-    }
-
     public void PerformMovement(MovementGA movementGa)
     {
         _moveQueue.Enqueue(movementGa);
     }
+
+    [Button]
+    public void Fire(int damage = 1)
+    {
+        Sequence.Create()
+            .Chain(Tween.Scale(modelTransform, new TweenSettings<float>(endValue:fireTweenScaleFactor, settings:fireScaleTweenSetting)))
+            .Chain(Tween.Scale(modelTransform, new TweenSettings<float>(endValue: 1f, settings: fireScaleTweenSetting)));
+        
+        var bullet = Instantiate(simpleBulletPrefab, firePoint.position, Quaternion.identity);
+        bullet.SetDamage(damage);
+        Rigidbody bulletRb = bullet.RigidBody;
+        bulletRb.linearVelocity = Vector2.right * bulletSpeed;
+    }
+
+    public void Damage(int amount)
+    {
+        _healthSystem ??= Registry<HealthSystem>.GetFirst();
+        _healthSystem.Damage(amount);
+    }
+
+    public bool IsShip() => true;
 }

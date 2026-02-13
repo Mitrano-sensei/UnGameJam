@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Utilities;
 
 public class AttackPerformer : MonoBehaviour
 {
@@ -13,10 +14,14 @@ public class AttackPerformer : MonoBehaviour
         ActionSystem.DetachPerformer<AttackGA>();
     }
 
-    private IEnumerator AttackPerform(AttackGA drawCardGA)
+    private IEnumerator AttackPerform(AttackGA attackGA)
     {
-        // TODO: Impl
-        Debug.Log($"Attack for {drawCardGA.Damage} Damages");
+        var shipSetup = Registry<ShipSetup>.GetFirst();
+        var shipController = shipSetup.ShipController;
+
+        shipController.Fire();
+        
+        Debug.Log($"Attack for {attackGA.Damage} Damages");
         yield return null;
     }
 }
