@@ -225,7 +225,7 @@ MonoBehaviour:
   previewImageCard2: {fileID: 1404126207826771320}
   descriptionHolder1: {fileID: 7603225076353255530}
   descriptionHolder2: {fileID: 3908181397608549878}
-  previewInteractionHandlerObject: {fileID: 6387723840830246167}
+  simpleInteractionHandlerObject: {fileID: 6387723840830246167}
   priceText: {fileID: 5542170333566773899}
   transformToScale: {fileID: 5959056108733525249}
   scaleFactor: 1.1

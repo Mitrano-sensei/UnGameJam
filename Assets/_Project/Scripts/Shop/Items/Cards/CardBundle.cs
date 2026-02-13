@@ -27,7 +27,7 @@ public class CardBundle : BuyableItem
         return preview;
     }
 
-    public void RemoveFromPreview(CardBundlePreview preview)
+    private void RemoveFromPreview(CardBundlePreview preview)
     {
         preview.DestroySelf();
     }

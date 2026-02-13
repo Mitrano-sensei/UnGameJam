@@ -14,7 +14,6 @@ public class CardBundlePreview : APreview
     [SerializeField] private Image previewImageCard2;
     [SerializeField] private DescriptionHolder descriptionHolder1;
     [SerializeField] private DescriptionHolder descriptionHolder2;
-    [FormerlySerializedAs("previewInteractionHandlerObject")]
     [SerializeField] private SimpleInteractionHandler simpleInteractionHandlerObject;
     [SerializeField] private TextMeshProUGUI priceText;
 
