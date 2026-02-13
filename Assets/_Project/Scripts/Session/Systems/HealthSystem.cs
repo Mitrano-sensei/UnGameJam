@@ -1,4 +1,4 @@
-﻿using Unity.Collections;
+﻿using EditorAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -9,7 +9,7 @@ public class HealthSystem : MonoBehaviour, ILoadable
     [FormerlySerializedAs("maxHealth")]
     [Header("Settings")]
     [SerializeField] private int baseMaxHealth = 5;
-    [SerializeField, ReadOnly] private int currentHealth = 5;
+    [SerializeField, Unity.Collections.ReadOnly] private int currentHealth = 5;
 
     private int _maxHealth;
     
@@ -49,4 +49,34 @@ public class HealthSystem : MonoBehaviour, ILoadable
     {
         Registry<HealthSystem>.TryRemove(this);
     }
+    
+    public void AddOnHealthChangedListener(UnityAction<int, int> listener) => onHealthChanged.AddListener(listener);
+    public void RemoveOnHealthChangedListener(UnityAction<int, int> listener) => onHealthChanged.RemoveListener(listener);
+    
+    public void AddOnMaxHealthChangedListener(UnityAction<int, int> listener) => onMaxHealthChanged.AddListener(listener);
+    public void RemoveOnMaxHealthChangedListener(UnityAction<int, int> listener) => onMaxHealthChanged.RemoveListener(listener);
+
+    public void SetHealth(int value)
+    {
+        var oldHealth = currentHealth;
+        currentHealth = Mathf.Clamp(value, 0, _maxHealth);
+        onHealthChanged.Invoke(oldHealth, value);
+    }
+    
+    public void AddHealth(int value) => SetHealth(currentHealth + value);
+    public void Damage(int value) => SetHealth(currentHealth - value);
+
+    #region Debug
+
+    [Header("Debug")]
+    [ShowInInspector, ReadOnly] public int CurrentHealthDebug => CurrentHealth;
+    [ShowInInspector, ReadOnly] public int MaxHealthDebug => MaxHealth;
+    
+    [Button]
+    public void HealOneHealth() => AddHealth(1);
+    
+    [Button]
+    public void DamageOneHealth() => Damage(1);
+
+    #endregion
 }
