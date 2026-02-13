@@ -53,7 +53,8 @@ public class StatSystem : MonoBehaviour, ILoadable
         MaxHealth,
         DrawPerSecond,
         HandSize,
-        MoneyPerCombat
+        MoneyPerCombat,
+        Speed
     }
 
 }

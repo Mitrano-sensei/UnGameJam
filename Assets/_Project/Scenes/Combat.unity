@@ -149,9 +149,58 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 893141881}
+  - {fileID: 481593481}
   - {fileID: 1002661310}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &481593480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 481593481}
+  - component: {fileID: 481593482}
+  m_Layer: 0
+  m_Name: SpeedSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &481593481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481593480}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -530.5, y: -298.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 327819947}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &481593482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481593480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3551c20b66cc43e998838b1a67043eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpeedSystem
+  baseSpeed: 5
+  OnSpeedChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &608690046
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,12 +435,14 @@ MonoBehaviour:
   - {fileID: 3095784204867484680}
   - {fileID: 893141880}
   - {fileID: 5403085273989349938}
+  - {fileID: 481593480}
   toUnLoad:
   - {fileID: 1945738696}
   - {fileID: 7036739946541950229}
   - {fileID: 3095784204867484680}
   - {fileID: 893141880}
   - {fileID: 5403085273989349938}
+  - {fileID: 481593480}
   isDebug: 0
 --- !u!1 &893141880
 GameObject:

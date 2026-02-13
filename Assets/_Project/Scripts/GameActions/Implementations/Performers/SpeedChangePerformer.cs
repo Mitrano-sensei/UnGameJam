@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Utilities;
 
 public class SpeedChangePerformer : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class SpeedChangePerformer : MonoBehaviour
     
     private IEnumerator SpeedChangePerform(SpeedChangeGA speedChangeGA)
     {
-        // TODO: Impl
+        var statSystem = Registry<StatSystem>.GetFirst();
+        statSystem.AddStatModifier(StatSystem.StatType.Speed, speedChangeGA.Amount);
         Debug.Log($"Speed Change: {speedChangeGA.Amount}");
         yield return null;
     }

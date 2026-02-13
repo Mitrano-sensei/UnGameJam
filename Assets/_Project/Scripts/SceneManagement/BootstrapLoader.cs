@@ -46,7 +46,8 @@ public class BootstrapLoader : MonoBehaviour
     [Button]
     public void CopyLoadToUnLoad()
     {
-        toUnLoad = toLoad;
+        toUnLoad.Clear();
+        toUnLoad.AddRange(toLoad);
     }
 }
 
