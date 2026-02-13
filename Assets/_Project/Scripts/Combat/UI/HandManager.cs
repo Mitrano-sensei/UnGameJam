@@ -88,9 +88,8 @@ public class HandManager : MonoBehaviour, ILoadable
         CardSlot slot = Instantiate(slotPrefab, transform);
         CardBody card = slot.GetComponentInChildren<CardBody>();
         slot.Initialize(this);
-        _currentHand.Add(card);
         
-        InitializeCard(card, cardData, _currentHand.Count - 1);
+        InitializeCardAndAddToHand(card, cardData, _currentHand.Count - 1);
 
         if (!isDraw) return;
         
@@ -100,7 +99,7 @@ public class HandManager : MonoBehaviour, ILoadable
         card.ReturnToOrigin(true, isDraw: true);
     }
 
-    private void InitializeCard(CardBody card, CardData cardData, int index)
+    private void InitializeCardAndAddToHand(CardBody card, CardData cardData, int index)
     {
         card.PointerEnterEvent?.AddListener(CardPointerEnter);
         card.PointerExitEvent?.AddListener(CardPointerExit);
@@ -108,7 +107,14 @@ public class HandManager : MonoBehaviour, ILoadable
         card.EndDragEvent?.AddListener(CardEndDrag);
 
         card.SetCardData(cardData);
-        card.SetCardIndex(index);
+        _currentHand.Sort((c1, c2) => c1.CardIndex.CompareTo(c2.CardIndex));
+        _currentHand.Add(card);
+        int i = 0;
+        _currentHand.ForEach(c =>
+        {
+            c.SetCardIndex(i);
+            i++;
+        });
     }
 
     void SwapDraggedCard(int i)

@@ -26,6 +26,7 @@ public class ShopSystem: MonoBehaviour, ILoadable
     [SerializeField] private int _cardsPrice = 2;
     [SerializeField] private int _repairPrice = 1;
     [SerializeField] private int _removeCardPrice = 1;
+    [SerializeField] private int _singleCardPrice = 1;
     
     public int RelicPrices => _relicPrices;
     public int CardsPrice => _cardsPrice;
@@ -147,5 +148,16 @@ public class ShopSystem: MonoBehaviour, ILoadable
     public bool CanBuyCardBundle()
     {
         return _moneySystem.Money >= _cardsPrice;
+    }
+
+    public void BuyCard(APreview cardPreview)
+    {
+        if (_moneySystem.Money < _singleCardPrice) return;
+        _moneySystem.Money -= _singleCardPrice;
+        
+        // TODO: Not fully implemented
+        // _deckSystem.AddCard(preview.CardData);
+        Debug.LogError("Not fully implemented");
+        cardPreview.DestroySelf();
     }
 }

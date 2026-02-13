@@ -9,12 +9,15 @@ public class BootstrapLoader : MonoBehaviour
     [SerializeField] private List<GameObject> toLoad = new List<GameObject>();
     [HelpBox("Will UnLoad from bottom to top")]
     [SerializeField] private List<GameObject> toUnLoad = new List<GameObject>();
+
+    [Header("Debug")]
+    [SerializeField] private bool isDebug;
     
     private void OnEnable()
     {
         foreach (GameObject toLoadGo in toLoad)
         {
-            Debug.Log("Loading " + toLoadGo.name);
+            if (isDebug) Debug.Log("Loading " + toLoadGo.name);
             if (!toLoadGo.TryGetComponent<ILoadable>(out var loadable))
             {
                 Debug.LogError($"Gameobject {toLoadGo.name} does not implement ILoadable");

@@ -60,8 +60,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
 
     public void Initialize()
     {
-        _currentDeck = baseDeck.Cards.ToList();
-        _currentDeck.AddRange(_boughtCards);
+        _currentDeck = GetFullDeck();
         _currentHandSize = baseHandSize + _statSystem.GetStatModifierValue(StatSystem.StatType.HandSize);
 
         _currentHand.Clear();
@@ -71,6 +70,13 @@ public class DeckSystem : MonoBehaviour, ILoadable
         
         if (!drawOnInit) return;
         Draw(Mathf.FloorToInt(_currentHandSize * initialDrawPercent * .01f));
+    }
+
+    public List<CardData> GetFullDeck()
+    {
+        var deck = baseDeck.Cards.ToList();
+        deck.AddRange(_boughtCards);
+        return deck;
     }
 
     private void ShuffleDeck()
@@ -131,6 +137,11 @@ public class DeckSystem : MonoBehaviour, ILoadable
     public void AddCardBundle(CardBundle cardBundle)
     {
         _boughtCards.AddRange(cardBundle.Content);
+    }
+    
+    public void AddCard(CardData cardData)
+    {
+        _boughtCards.Add(cardData);
     }
 
     #endregion

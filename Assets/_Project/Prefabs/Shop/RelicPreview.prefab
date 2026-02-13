@@ -56,7 +56,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   relicPreviewImage: {fileID: 1540134433252615997}
-  previewInteractionHandlerObject: {fileID: 4641752344301376985}
+  simpleInteractionHandlerObject: {fileID: 4641752344301376985}
   relicPrice: {fileID: 7433281955058355386}
   descriptionHolder: {fileID: 7685173580368015709}
   transformToScale: {fileID: 6604200858138103553}

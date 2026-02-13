@@ -38,7 +38,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3.3353207}
+  m_AnchoredPosition: {x: 0, y: 3.3353271}
   m_SizeDelta: {x: 1920, y: 1010}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4963219895494833066
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &2402038119940289746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,11 +206,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotManager
   slotPrefab: {fileID: 2441460802044922702, guid: 028cdd9b7b514fd4d97aa1ec4609cb3c, type: 3}
-  exampleCardsData:
-  - {fileID: 11400000, guid: 45fa1e1d75cd3e8459c077fa758c864e, type: 2}
-  - {fileID: 11400000, guid: bad06a510881a394592c5ff42856a72a, type: 2}
-  - {fileID: 11400000, guid: 1a496900da1a22e4da52c9f4844e6eda, type: 2}
-  - {fileID: 11400000, guid: 708193d21790a694d8db4603453b3c1c, type: 2}
-  cardsToSpawn: 7
-  cards: []
+  inputReader: {fileID: 0}
+  trashTransform: {fileID: 0}
+  movementThreshhold: 0.1
+  minimumTimeBetweenSelection: 0.15
   tweenCardReturn: 1

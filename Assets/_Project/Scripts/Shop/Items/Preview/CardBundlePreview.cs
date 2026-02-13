@@ -3,6 +3,7 @@ using EditorAttributes;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utilities;
 
@@ -13,7 +14,8 @@ public class CardBundlePreview : APreview
     [SerializeField] private Image previewImageCard2;
     [SerializeField] private DescriptionHolder descriptionHolder1;
     [SerializeField] private DescriptionHolder descriptionHolder2;
-    [SerializeField] private PreviewInteractionHandler previewInteractionHandlerObject;
+    [FormerlySerializedAs("previewInteractionHandlerObject")]
+    [SerializeField] private SimpleInteractionHandler simpleInteractionHandlerObject;
     [SerializeField] private TextMeshProUGUI priceText;
 
     [Header("Hover Scale")]
@@ -45,9 +47,9 @@ public class CardBundlePreview : APreview
 
     private void InitializeInteractions()
     {
-        previewInteractionHandlerObject.OnHoverEnter.AddListener(OnHoverEnterAction);
-        previewInteractionHandlerObject.OnHoverExit.AddListener(OnHoverExitAction);
-        previewInteractionHandlerObject.OnClick.AddListener(OnClickAction);
+        simpleInteractionHandlerObject.OnHoverEnter.AddListener(OnHoverEnterAction);
+        simpleInteractionHandlerObject.OnHoverExit.AddListener(OnHoverExitAction);
+        simpleInteractionHandlerObject.OnClick.AddListener(OnClickAction);
     }
 
     private void OnClickAction()
