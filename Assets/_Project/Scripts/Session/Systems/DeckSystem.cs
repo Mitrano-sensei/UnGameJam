@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using EditorAttributes;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Utilities;
 
 public class DeckSystem : MonoBehaviour, ILoadable
@@ -9,55 +11,72 @@ public class DeckSystem : MonoBehaviour, ILoadable
     [Header("Reference")]
     [SerializeField, Required] private InputReader inputReader;
 
+    private StatSystem _statSystem;
+
     [Header("Base Deck")]
     [SerializeField] private BaseDeck baseDeck;
 
     [Header("Deck")]
-    [SerializeField] private int handSize;
-    
+    [SerializeField] private int baseHandSize;
+    [SerializeField, ReadOnly] private List<CardData> _boughtCards = new();
+
     [SerializeField, ReadOnly] private List<CardData> _currentHand = new();
     [SerializeField, ReadOnly] private List<CardData> _currentDeck = new();
+
+    private int _currentHandSize;
+
+    [Header("Events")]
+    [HideInInspector] private readonly UnityEvent<int, int> onHandSizeChanged = new(); // oldValue, newValue -> onHandSizeChanged
 
     [Header("Misc")]
     [SerializeField] private bool initOnStart = true;
     [SerializeField] private bool drawOnInit = true;
-    
+
     [EnableField(nameof(drawOnInit))]
     [SerializeField, Range(1, 100)] private int initialDrawPercent;
-    
+
     private static readonly System.Random _rng = new System.Random();
+
+    private bool _isInitialized;
 
     private void Start()
     {
         if (initOnStart) Initialize();
     }
-    
+
     public void LoadWithScene()
     {
-        if (Registry<DeckSystem>.All.Any())
-        {
-            Debug.LogError("There is already a deck system in the scene, only one is allowed at a time");
-            return;
-        }
-        
-        Registry<DeckSystem>.TryAdd(this);
+        Registry<DeckSystem>.RegisterSingletonOrLogError(this);
+
+        _statSystem = Registry<StatSystem>.GetFirst();
+        _statSystem.AddStatListener(OnMaxHandStatChanged);
     }
 
     public void UnLoadWithScene()
     {
         Registry<DeckSystem>.TryRemove(this);
+        _statSystem.RemoveStatListener(OnMaxHandStatChanged);
     }
 
     public void Initialize()
     {
-        _currentDeck = baseDeck.Cards.ToList();
-        // TODO : Add purchased cards
-        
+        _currentDeck = GetFullDeck();
+        _currentHandSize = baseHandSize + _statSystem.GetStatModifierValue(StatSystem.StatType.HandSize);
+
         _currentHand.Clear();
         ShuffleDeck();
 
+        _isInitialized = true;
+        
         if (!drawOnInit) return;
-        Draw(Mathf.FloorToInt(handSize * initialDrawPercent * .01f));
+        Draw(Mathf.FloorToInt(_currentHandSize * initialDrawPercent * .01f));
+    }
+
+    public List<CardData> GetFullDeck()
+    {
+        var deck = baseDeck.Cards.ToList();
+        deck.AddRange(_boughtCards);
+        return deck;
     }
 
     private void ShuffleDeck()
@@ -73,32 +92,59 @@ public class DeckSystem : MonoBehaviour, ILoadable
         if (!handManager)
         {
             Debug.LogWarning("Trying to draw cards without a hand manager");
+            return;
         }
-        
+
         for (int i = 0; i < amount; i++)
         {
-            if (_currentHand.Count >= handSize) return;
-            if (_currentDeck.Count == 0)        return;
+            if (_currentHand.Count >= _currentHandSize) return;
+            if (_currentDeck.Count == 0) return;
 
             var drawnCard = _currentDeck[0];
             _currentHand.Add(drawnCard);
             _currentDeck.Remove(drawnCard);
-            
+
             handManager.AddCardToHand(drawnCard, true);
         }
     }
 
     public bool CanDraw()
     {
-        return _currentHand.Count < handSize;
+        return _isInitialized && _currentHand.Count < _currentHandSize;
     }
 
     public void ReturnCard(CardData cardData)
     {
         _currentHand.Remove(cardData);
         _currentDeck.Add(cardData);
-        
     }
+
+    private void OnMaxHandStatChanged(StatSystem.StatType type, int oldValue, int newValue)
+    {
+        if (type != StatSystem.StatType.HandSize) return;
+
+        _currentHandSize = baseHandSize + newValue;
+        onHandSizeChanged.Invoke(oldValue, _currentHandSize);
+    }
+
+    public void OnEndCombatPhase()
+    {
+        _isInitialized = false;
+    }
+
+    #region Shop
+
+    public void AddCardBundle(CardBundle cardBundle)
+    {
+        _boughtCards.AddRange(cardBundle.Content);
+    }
+    
+    public void AddCard(CardData cardData)
+    {
+        _boughtCards.Add(cardData);
+    }
+
+    #endregion
 
     #region Debug
 
@@ -106,7 +152,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
     private void InitDebug()
     {
         if (!Application.IsPlaying(this)) return;
-        
+
         Initialize();
     }
 
@@ -128,7 +174,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
     private void FillHandDebug()
     {
         if (!Application.IsPlaying(this)) return;
-        Draw(handSize);
+        Draw(baseHandSize);
     }
 
     #endregion

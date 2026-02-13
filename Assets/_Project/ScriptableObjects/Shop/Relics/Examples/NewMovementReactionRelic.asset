@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c1cc5ffd934767a0c3ca24971a897a, type: 3}
+  m_Name: NewMovementReactionRelic
+  m_EditorClassIdentifier: Assembly-CSharp::MovementReactionRelicData
+  previewPrefab: {fileID: 3533568078974011071, guid: b6cfaa63514957d4b85fd6d1d7291541, type: 3}
+  relicName: Example 2
+  description: Do Noting
+  relicImage: {fileID: 21300000, guid: 5b1b3a042f223f04791b801c933afba1, type: 3}
+  timing: 0
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []

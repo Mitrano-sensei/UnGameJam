@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b369501bfa3a8f344ae1399d3f48eff3, type: 3}
   m_Name: ExampleCard_DA
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  CardName: Example Card
-  CardImage: {fileID: 21300000, guid: 60f40c0a08c507740997efacea555554, type: 3}
+  cardPreviewPrefab: {fileID: 6944276182491752243, guid: 83ccc8627cdda7e40a1bd276f35f77ab, type: 3}
+  cardName: 
+  cardImage: {fileID: 21300000, guid: 60f40c0a08c507740997efacea555554, type: 3}
   CardDescription: Card used as an example
   Effects:
   - rid: 6238194198015901986
@@ -24,3 +25,4 @@ MonoBehaviour:
       type: {class: MovementGA, ns: , asm: Assembly-CSharp}
       data:
         movementType: 0
+        amount: 1

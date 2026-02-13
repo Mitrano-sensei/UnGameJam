@@ -6,7 +6,7 @@ public class CardSlot : MonoBehaviour
 {
     private CardBody cardBody;
     public CardBody CardBody => cardBody;
-    public HandManager _handManager;
+    private HandManager _handManager;
 
     private void Start()
     {

@@ -26,13 +26,7 @@ public class ShipSetup : MonoBehaviour, ILoadable
 
     public void LoadWithScene()
     {
-        if (Registry<ShipSetup>.All.Any())
-        {
-            Debug.LogError("There is already a ship setup in the scene, only one is allowed at a time");
-            return;
-        }
-        
-        Registry<ShipSetup>.TryAdd(this);
+        Registry<ShipSetup>.RegisterSingletonOrLogError(this);
     }
 
     public void UnLoadWithScene()

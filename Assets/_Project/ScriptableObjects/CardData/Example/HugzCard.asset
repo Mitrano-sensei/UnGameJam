@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b369501bfa3a8f344ae1399d3f48eff3, type: 3}
   m_Name: HugzCard
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  CardName: "Le nom sert \xE0 rien"
-  CardImage: {fileID: 21300000, guid: 877cda1775e0e7447901313e55f14793, type: 3}
-  CardDescription: qsdqsddqs
+  cardPreviewPrefab: {fileID: 6944276182491752243, guid: 83ccc8627cdda7e40a1bd276f35f77ab, type: 3}
+  cardName: Hugz Card
+  cardImage: {fileID: 21300000, guid: 877cda1775e0e7447901313e55f14793, type: 3}
+  CardDescription: Hugggzzzzzz
   Effects:
   - rid: 1546673280405209359
   - rid: 1546673280405209360

@@ -4,6 +4,7 @@ using PrimeTween;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utilities;
 
@@ -11,10 +12,10 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
 {
     [Header("References")]
-    [SerializeField] private Canvas canvas;
     [SerializeField, Required] private InputReader inputReader;
     [SerializeField, Required] private CardVisual cardVisual;
     [SerializeField, Required] private CardEffectHandler cardEffectHandler;
+    private Canvas _canvas;
     private Image _image;
     private RectTransform _rectTransform;
     private RectTransform _canvasRectTransform;
@@ -27,7 +28,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     [Header("Dragging")]
     [SerializeField] private float maxSpeed = 10f;
-    [SerializeField] private float yDeltaBeforePlayable = 45f;
+    [SerializeField] private float yDeltaBeforePlayableScreenSpace = 100f;
     private Vector2 offset;
     private Vector2 _mouseScreenPosition;
     private Vector2 _oldPosition;
@@ -71,8 +72,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private void Start()
     {
-        if (canvas == null)
-            canvas = Registry<MainUICanvas>.GetFirst().GetComponent<Canvas>();
+        _canvas = Registry<MainUICanvas>.GetFirst().GetComponent<Canvas>();
 
         inputReader.Point += (p, isMouse) => _mouseScreenPosition = isMouse ? p : Vector2.zero;
     }
@@ -89,10 +89,10 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private void HandleDrag()
     {
-        _scaler ??= canvas.GetComponent<CanvasScaler>();
-        bool isScreenSpaceOverlay = canvas.renderMode == RenderMode.ScreenSpaceOverlay;
+        _scaler ??= _canvas.GetComponent<CanvasScaler>();
+        bool isScreenSpaceOverlay = _canvas.renderMode == RenderMode.ScreenSpaceOverlay;
         var localMousePoint = !isScreenSpaceOverlay 
-            ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas) 
+            ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, _canvas) 
             : new(_mouseScreenPosition.x, _mouseScreenPosition.y);
         
         _oldPosition = _rectTransform.anchoredPosition;
@@ -122,18 +122,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             return;
         }
         
-        var tween = Tween.UIAnchoredPosition(_rectTransform, Vector2.zero, duration);
-
-        // if (isDraw)
-        // {
-        //     var oldScale = cardVisual.transform.localScale;
-        //     Sequence.Create()
-        //         .ChainCallback(() => cardVisual.transform.localScale = Vector3.one * .1f)
-        //         .Chain(tween)
-        //         .Group(Tween.Scale(cardVisual.transform, new TweenSettings<float>(1f, drawScaleTweenSettings)) // TODO: FIXME
-        //             .OnComplete(() => cardVisual.transform.localScale = oldScale));
-        // }
-            
+        Tween.UIAnchoredPosition(_rectTransform, Vector2.zero, duration);
     }
 
     public void SetCardData(CardData cardData)
@@ -183,7 +172,7 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnChangeParent(Transform oldParent, Transform newParent)
     {
         if (!_isDragging) return;
-        if (canvas.renderMode != RenderMode.ScreenSpaceOverlay) return;
+        if (_canvas.renderMode != RenderMode.ScreenSpaceOverlay) return;
 
         Vector2 oldParentPosition = oldParent.position;
         Vector2 newParentPosition = newParent.position;
@@ -200,29 +189,27 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         BeginDragEvent?.Invoke(this);
 
-        var mousePos = canvas.renderMode is RenderMode.WorldSpace or RenderMode.ScreenSpaceCamera
-            ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, canvas)
+        var mousePos = _canvas.renderMode is RenderMode.WorldSpace or RenderMode.ScreenSpaceCamera
+            ? UIHelpers.GetLocalCoordsFromMouseScreenPosition(_rectTransform, _mouseScreenPosition, _canvas)
             : _mouseScreenPosition;
         offset = _rectTransform.anchoredPosition - mousePos;
         _isDragging = true;
 
-        canvas.GetComponent<GraphicRaycaster>().enabled = false;
+        _canvas.GetComponent<GraphicRaycaster>().enabled = false;
         _image.raycastTarget = false;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        EndDragEvent?.Invoke(this, _rectTransform.position.y >= yDeltaBeforePlayable);
+        EndDragEvent?.Invoke(this, _rectTransform.anchoredPosition.y >= yDeltaBeforePlayableScreenSpace);
         _isDragging = false;
 
-        canvas.GetComponent<GraphicRaycaster>().enabled = true;
+        _canvas.GetComponent<GraphicRaycaster>().enabled = true;
         _image.raycastTarget = true;
     }
     
     public void ReturnToDeck()
     {
-        _deckSystem ??= Registry<DeckSystem>.GetFirst();
-        _deckSystem.ReturnCard(_cardData);
         Destroy(transform.parent.gameObject);
     }
 
@@ -235,6 +222,9 @@ public class CardBody : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             return;
         }
         parentCardSlot.GoToTrash();
+        
+        _deckSystem ??= Registry<DeckSystem>.GetFirst();
+        _deckSystem.ReturnCard(_cardData);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

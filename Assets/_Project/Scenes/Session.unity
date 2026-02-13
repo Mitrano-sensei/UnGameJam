@@ -164,9 +164,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BootstrapLoader
   toLoad:
+  - {fileID: 501038581}
   - {fileID: 9040838187760974447}
+  - {fileID: 667143604}
+  - {fileID: 9040838187760974448}
+  - {fileID: 1550098505}
   toUnLoad:
+  - {fileID: 501038581}
   - {fileID: 9040838187760974447}
+  - {fileID: 667143604}
+  - {fileID: 9040838187760974448}
+  - {fileID: 1550098505}
+--- !u!1 &501038581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1467991113255723647, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
+  m_PrefabInstance: {fileID: 9040838187760974446}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &667143604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5481405862322290737, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
+  m_PrefabInstance: {fileID: 9040838187760974446}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1550098505 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9053765715227374241, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
+  m_PrefabInstance: {fileID: 9040838187760974446}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1847231368
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,12 +230,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 324611198580312377, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
-      propertyPath: drawOnInit
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 324611198580312377, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
-      propertyPath: initOnStart
-      value: 0
+      propertyPath: baseHandSize
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5935039331393688700, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
       propertyPath: m_Name
@@ -258,6 +277,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8597483377089592155, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
+      propertyPath: isDebug
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -266,6 +289,11 @@ PrefabInstance:
 --- !u!1 &9040838187760974447 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4349598675275571004, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
+  m_PrefabInstance: {fileID: 9040838187760974446}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9040838187760974448 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6673472449419328386, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
   m_PrefabInstance: {fileID: 9040838187760974446}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
