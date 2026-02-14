@@ -208,8 +208,9 @@ public class HandManager : MonoBehaviour, ILoadable
 
     private void OnInteractInput()
     {
-        if (_selectedCardBody == null) return;
-        _selectedCardBody.EffectHandler.PerformEffects();
+        // if (_selectedCardBody == null) return;
+        // _selectedCardBody.EffectHandler.PerformEffects();
+        // TODO: Removed bc not enough time to update it
     }
 
     /**

@@ -49,7 +49,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41fe45e5c9b42c49b0ef4ba6e774436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardSlot
-  _handManager: {fileID: 0}
 --- !u!1 &4223561344345527012
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,12 +111,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a5a207104df5a48b6a0ba2c4a62a79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Card
-  canvas: {fileID: 0}
   inputReader: {fileID: 11400000, guid: 14d190aaafb8dfe4a8fb17f83ed91952, type: 2}
   cardVisual: {fileID: 5655563734265356760}
   cardEffectHandler: {fileID: 5960313400970666539}
   maxSpeed: 100
-  yDeltaBeforePlayable: 100
+  yDeltaBeforePlayableScreenSpace: 240
   _cardIndex: 0
   PointerEnterEvent:
     m_PersistentCalls:
@@ -254,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.6392157}
   m_EffectDistance: {x: 2, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!1 &5944193420076697641

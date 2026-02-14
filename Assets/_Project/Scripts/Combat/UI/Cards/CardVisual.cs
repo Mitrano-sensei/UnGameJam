@@ -140,7 +140,6 @@ public class CardVisual : MonoBehaviour
     {
         parentCardBody.GoToTrash();
         _deckPosition ??= Registry<DeckHandler>.GetFirst().ReturnPosition;
-        
 
         _playedSequence = Sequence
             .Create(Tween.Scale(transform, new TweenSettings<float>(0f, onCardPlayedScaleTweenSettings)))
