@@ -125,6 +125,26 @@ MonoBehaviour:
     useUnscaledTime: 0
     _useFixedUpdate: 0
     _updateType: 0
+  onUsePunchTween:
+    strength: {x: 0.4, y: 0.4, z: 0.4}
+    duration: 0.2
+    frequency: 10
+    enableFalloff: 0
+    falloffEase: 0
+    strengthOverTime:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    asymmetry: 0
+    easeBetweenShakes: 0
+    cycles: 1
+    startDelay: 0
+    endDelay: 0
+    useUnscaledTime: 0
+    _useFixedUpdate: 0
+    _updateType: 0
 --- !u!1 &3498898653142555890
 GameObject:
   m_ObjectHideFlags: 0

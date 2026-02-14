@@ -13,12 +13,13 @@ public class RepairItem : BuyableItem
     public Sprite Image => image;
     public string Description => description;
 
-    public override APreview GeneratePreview()
+    public override APreview GeneratePreview(bool forShop = true, bool spawnAnimation = true)
     {
         var preview = Instantiate(previewPrefab);
         preview.Initialize(this);
-        preview.SpawnAnimation();
+        if (spawnAnimation) preview.SpawnAnimation();
         preview.AddClickEvent(() => BuyItem(preview));
+        // TODO: hide price if withPrice is false
         
         return preview;
     }

@@ -17,12 +17,13 @@ public class CardBundle : BuyableItem
 
     public List<CardData> Content => _cards;
 
-    public override APreview GeneratePreview()
+    public override APreview GeneratePreview(bool forShop = true, bool spawnAnimation = true)
     {
         var preview = Instantiate(previewPrefab);
         preview.SetCardBundle(this);
-        preview.SpawnAnimation();
-        preview.AddClickEvent(() => BuyItem(preview));
+        if (spawnAnimation) preview.SpawnAnimation();
+        if (forShop) preview.AddClickEvent(() => BuyItem(preview));
+        // TODO: hide price if withPrice is false
         
         return preview;
     }

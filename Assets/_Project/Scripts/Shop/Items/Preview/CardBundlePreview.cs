@@ -34,7 +34,8 @@ public class CardBundlePreview : APreview
         previewImageCard1.sprite = cardBundle.Content[0].CardImage;
         previewImageCard2.sprite = cardBundle.Content[0].CardImage;
 
-        priceText.text = $"{Registry<ShopSystem>.GetFirst().CardsPrice.ToString()}g";
+        var shopSystem = Registry<ShopSystem>.GetFirst();
+        if (shopSystem) priceText.text = $"{shopSystem.CardsPrice.ToString()}g";
         descriptionHolder1.SetDescription(cardBundle.Content[0].CardDescription);
         descriptionHolder2.SetDescription(cardBundle.Content[1].CardDescription);
 

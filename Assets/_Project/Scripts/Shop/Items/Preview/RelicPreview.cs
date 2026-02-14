@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
@@ -23,13 +24,17 @@ public class RelicPreview : APreview
     [Header("Settings")]
     [SerializeField] private TweenSettings spawnTweenSettings;
     [SerializeField] private TweenSettings destroyTweenSettings;
+    [SerializeField] private ShakeSettings onUsePunchTween;
+
+    private float _scale = 1f;
 
     public void SetRelicData(RelicData relicData)
     {
         // _cardBundle = cardBundle;
         relicPreviewImage.sprite = relicData.RelicImage;
 
-        relicPrice.text = $"{Registry<ShopSystem>.GetFirst().RelicPrices.ToString()}g";
+        var shopSystem = Registry<ShopSystem>.GetFirst();
+        if (shopSystem) relicPrice.text = $"{shopSystem.RelicPrices.ToString()}g";
         descriptionHolder.SetDescription(relicData.Description);
 
         InitializeInteractions();
@@ -49,7 +54,7 @@ public class RelicPreview : APreview
 
     private void OnHoverEnterAction()
     {
-        Tween.Scale(transformToScale, new TweenSettings<float>(scaleFactor, hoverTweenSettings));
+        Tween.Scale(transformToScale, new TweenSettings<float>(_scale * scaleFactor, hoverTweenSettings));
 
         // Description
         descriptionHolder.gameObject.SetActive(true);
@@ -58,7 +63,7 @@ public class RelicPreview : APreview
 
     private void OnHoverExitAction()
     {
-        Tween.Scale(transformToScale, new TweenSettings<float>(1f, hoverTweenSettings));
+        Tween.Scale(transformToScale, new TweenSettings<float>(_scale, hoverTweenSettings));
 
         // Description
         Tween.Scale(descriptionHolder.transform, new TweenSettings<float>(startValue: 1f, endValue: 0f, hoverDescriptionSettings))
@@ -80,7 +85,31 @@ public class RelicPreview : APreview
 
     public void SpawnAnimation()
     {
+        var scale = transform.localScale.x;
         transform.localScale = Vector3.zero;
-        Tween.Scale(transform, new TweenSettings<float>(1f, spawnTweenSettings));
+        Tween.Scale(transform, new TweenSettings<float>(scale, spawnTweenSettings));
+    }
+
+    public void SetPriceTag(bool withPrice)
+    {
+        relicPrice.gameObject.SetActive(withPrice);
+    }
+
+    public void PlayUseAnimation()
+    {
+        Tween.PunchScale(transform, onUsePunchTween);
+    }
+
+    public void SetScale(float scale, bool withAnimation = false)
+    {
+        _scale = scale;
+        
+        if (!withAnimation)
+        {
+            transformToScale.localScale = Vector3.one * scale;
+            return;
+        }
+
+        Tween.Scale(transformToScale, new TweenSettings<float>(scale, spawnTweenSettings));
     }
 }

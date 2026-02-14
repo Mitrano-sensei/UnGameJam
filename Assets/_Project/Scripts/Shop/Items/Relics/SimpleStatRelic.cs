@@ -17,6 +17,7 @@ public class SimpleStatRelic : RelicData
             return;
         } 
         statChanges.ForEach(x => statSystem.AddStatModifier(x.StatType, x.Amount));
+        OnUseRelic?.Invoke();
     }
 
     public override void Remove()

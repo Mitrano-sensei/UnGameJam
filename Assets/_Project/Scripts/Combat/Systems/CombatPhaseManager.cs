@@ -1,14 +1,17 @@
-﻿using System;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using Utilities;
 
 public class CombatPhaseManager : MonoBehaviour, ILoadable
 {
+    [Header("Refrences")]
+    [SerializeField] private RelicPreviewHolder _relicPreviewRef;
 
     public void LoadWithScene()
     {
         Registry<CombatPhaseManager>.RegisterSingletonOrLogError(this);
+        
+        // Relic Holder
+        _relicPreviewRef.GeneratePreviews();
         
         // Relics
         var relicSystem = Registry<RelicSystem>.GetFirst();

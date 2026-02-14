@@ -19,7 +19,11 @@ public abstract class ReactionRelicData<T> : RelicData where T : GameAction
             return;
         }
         
-        _reactionRef = ga => Reaction?.Invoke(ga);
+        _reactionRef = ga =>
+        {
+            OnUseRelic?.Invoke();
+            Reaction?.Invoke(ga);
+        };
         ActionSystem.SubscribeReaction<T>(_reactionRef, timing);
     }
 

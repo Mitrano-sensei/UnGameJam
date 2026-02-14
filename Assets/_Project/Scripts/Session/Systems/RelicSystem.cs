@@ -8,7 +8,7 @@ public class RelicSystem : MonoBehaviour, ILoadable
 {
     private List<RelicData> _activeRelics = new List<RelicData>();
     
-    public List<String> ActiveRelics => _activeRelics.Select(relic => relic.RelicName).ToList();
+    public List<RelicData> ActiveRelics => _activeRelics;
     
     public void LoadWithScene()
     {

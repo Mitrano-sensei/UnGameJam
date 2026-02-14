@@ -21,13 +21,14 @@ public class CardData : BuyableItem
     [SerializeField, SerializeReference]
     [SR]
     public List<GameAction> Effects;
-    
-    public override APreview GeneratePreview()
+
+    public override APreview GeneratePreview(bool forShop = true, bool spawnAnimation = true)
     {
         var preview = Instantiate(cardPreviewPrefab);
         preview.SetCardData(this);
-        preview.SpawnAnimation();
+        if (spawnAnimation) preview.SpawnAnimation();
         preview.AddClickEvent(() => BuyItem(preview));
+        // TODO: hide price if withPrice is false
         
         return preview;
     }
