@@ -8,9 +8,9 @@ public class SimpleStatRelic : RelicData
 {
     [SerializeField] private List<StatChangeData> statChanges;
     
-    public override void Apply() => OnUseRelic?.Invoke();
+    public override void ApplyOnStartOfCombat() => OnUseRelic?.Invoke();
 
-    public override void Remove() { }
+    public override void RemoveOnStartOfCombat() { }
 
     public override void OnBuyEffect()
     {
@@ -22,6 +22,8 @@ public class SimpleStatRelic : RelicData
         } 
         statChanges.ForEach(x => statSystem.AddStatModifier(x.StatType, x.Amount));
     }
+
+    public override void OnEndOfCombat() { }
 }
 
 [Serializable]

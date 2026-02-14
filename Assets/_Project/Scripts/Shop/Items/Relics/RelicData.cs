@@ -27,9 +27,10 @@ public abstract class RelicData : BuyableItem
 
     public Sprite RelicImage => relicImage;
 
-    public abstract void Apply();
-    public abstract void Remove();
+    public abstract void ApplyOnStartOfCombat();
+    public abstract void RemoveOnStartOfCombat();
     public abstract void OnBuyEffect();
+    public abstract void OnEndOfCombat();
 
     public override APreview GeneratePreview(bool forShop = true, bool spawnAnimation = true)
     {

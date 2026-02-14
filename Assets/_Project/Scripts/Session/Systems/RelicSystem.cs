@@ -23,6 +23,7 @@ public class RelicSystem : MonoBehaviour, ILoadable
     public void AddRelic(RelicData relic) => _activeRelics.Add(relic);
     public void RemoveRelic(RelicData relic) => _activeRelics.Remove(relic);
     
-    public void ApplyEffectRelics() => _activeRelics.ForEach(relic => relic.Apply());
-    public void RemoveEffectRelics() => _activeRelics.ForEach(relic => relic.Remove());
+    public void ApplyEffectRelics() => _activeRelics.ForEach(relic => relic.ApplyOnStartOfCombat());
+    public void RemoveEffectRelics() => _activeRelics.ForEach(relic => relic.RemoveOnStartOfCombat());
+    public void ApplyOnEndOfCombat() => _activeRelics.ForEach(relic => relic.OnEndOfCombat());
 }

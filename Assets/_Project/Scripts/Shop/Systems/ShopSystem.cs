@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EditorAttributes;
 using UnityEngine;
 using Utilities;
@@ -36,6 +37,8 @@ public class ShopSystem : MonoBehaviour, ILoadable
     [SerializeField] private int _removeCardPrice = 1;
     [SerializeField] private int _singleCardPrice = 1;
 
+    private List<RelicData> _boughtRelics = new();
+    
     public int RelicPrices => _relicPrices;
     public int CardsPrice => _cardsPrice;
     public int RepairPrice => _repairPrice;
@@ -65,7 +68,7 @@ public class ShopSystem : MonoBehaviour, ILoadable
         InitializeShopSlots();
 
         _availableCards = _possibleCards.Shuffle().GetRange(0, _cardBundleSlots.Count);
-        _availableRelics = _possibleRelics.Shuffle().GetRange(0, _relicSlots.Count);
+        _availableRelics = _possibleRelics.FindAll(r => !_boughtRelics.Contains(r)).Shuffle().GetRange(0, _relicSlots.Count);
 
         // Relics
         for (var index = 0; index < _availableRelics.Count; index++)
@@ -165,6 +168,7 @@ public class ShopSystem : MonoBehaviour, ILoadable
 
         _moneySystem.Money -= _relicPrices;
         _relicSystem.AddRelic(relic);
+        _boughtRelics.Add(relic);
 
         _availableRelics.Remove(relic);
     }

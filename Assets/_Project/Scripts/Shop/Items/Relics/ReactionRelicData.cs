@@ -11,7 +11,7 @@ public abstract class ReactionRelicData<T> : RelicData where T : GameAction
     protected abstract UnityEvent<T> Reaction { get; }
 
     private Action<T> _reactionRef;
-    public override void Apply()
+    public override void ApplyOnStartOfCombat()
     {
         if (_reactionRef != null)
         {
@@ -27,7 +27,7 @@ public abstract class ReactionRelicData<T> : RelicData where T : GameAction
         ActionSystem.SubscribeReaction<T>(_reactionRef, timing);
     }
 
-    public override void Remove()
+    public override void RemoveOnStartOfCombat()
     {
         if (_reactionRef == null)
         {
@@ -39,4 +39,5 @@ public abstract class ReactionRelicData<T> : RelicData where T : GameAction
     }
 
     public override void OnBuyEffect() { }
+    public override void OnEndOfCombat() { }
 }

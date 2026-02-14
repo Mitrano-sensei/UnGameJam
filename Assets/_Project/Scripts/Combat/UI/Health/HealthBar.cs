@@ -30,7 +30,7 @@ public class HealthBar : MonoBehaviour
         var healthSystem = Registry<HealthSystem>.GetFirst();
         if (!healthSystem)
         {
-            Debug.LogError("Health System not found");
+            Debug.LogWarning("Health System not found");
             return;
         }
         

@@ -2,7 +2,7 @@
 
 public class CombatSceneManager : MonoBehaviour
 {
-    public void SwitchToShop()
+    public static void SwitchToShop()
     {
         SceneController.Instance
             .NewTransition()
@@ -11,7 +11,7 @@ public class CombatSceneManager : MonoBehaviour
             .Perform();
     }
 
-    public void EndSession()
+    public static void EndSession()
     {
         SceneController.Instance
             .NewTransition()
