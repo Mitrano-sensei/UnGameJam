@@ -12,6 +12,9 @@ public class BOTWSlider : MonoBehaviour
     [SerializeField, Required] private Slider mainSlider;
     [SerializeField, Required] private Slider backSlider;
 
+    private Image _mainSliderImage;
+    private Image _backSliderImage;
+    
     [Header("Settings")]
     [SerializeField] private float maxValue;
     
@@ -91,8 +94,11 @@ public class BOTWSlider : MonoBehaviour
         backSlider.maxValue = 1f;
         
         // Change color of sliders
-        mainSlider.fillRect.GetComponent<Image>().color = mainSliderColor;
-        backSlider.fillRect.GetComponent<Image>().color = backSliderColor;
+        _mainSliderImage ??= mainSlider.fillRect.GetComponent<Image>();
+        _backSliderImage ??= backSlider.fillRect.GetComponent<Image>();
+            
+        _mainSliderImage.color = mainSliderColor;
+        _backSliderImage.color = backSliderColor;
     }
     
     public void SetCurrentValue(float value)

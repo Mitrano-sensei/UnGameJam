@@ -78,7 +78,7 @@ public class ShipController : MonoBehaviour, IDamageable
         bulletRb.linearVelocity = Vector2.right * bulletSpeed;
     }
 
-    public void Damage(int amount)
+    public void InflictDamageSelf(int amount)
     {
         _healthSystem ??= Registry<HealthSystem>.GetFirst();
         _healthSystem.Damage(amount);

@@ -22,7 +22,7 @@ public class SimpleBullet : MonoBehaviour
         var enemyDamageable = other.gameObject.GetComponent<IDamageable>();
         if (enemyDamageable == null || enemyDamageable.IsShip()) return;
         
-        enemyDamageable.Damage(_damage);
+        enemyDamageable.InflictDamageSelf(_damage);
         Destroy(gameObject);
     }
     
@@ -35,5 +35,5 @@ public interface IDamageable
     {
         return false;
     }
-    void Damage(int amount);
+    void InflictDamageSelf(int amount);
 }

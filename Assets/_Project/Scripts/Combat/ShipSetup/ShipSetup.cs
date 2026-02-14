@@ -22,7 +22,8 @@ public class ShipSetup : MonoBehaviour, ILoadable
 
     public ShipRow[] ShipRows => _shipRows;
     public ShipController ShipController => _ship;
-
+    public int NumberOfRows => _rowsCount;
+    
     private ShipRow[] _shipRows;
 
     public void LoadWithScene()
@@ -62,7 +63,7 @@ public class ShipSetup : MonoBehaviour, ILoadable
             _shipRows[i].Index = i;
         }
 
-        _ship = Instantiate(_shipPrefab, _shipRows[_spawnPositionIndex].ShipPosition.position, Quaternion.identity, transform);
+        _ship = Instantiate(_shipPrefab, _shipRows[_spawnPositionIndex].ShipPosition, Quaternion.identity, transform);
         _ship.Initialize(this, _spawnPositionIndex);
     }
 
