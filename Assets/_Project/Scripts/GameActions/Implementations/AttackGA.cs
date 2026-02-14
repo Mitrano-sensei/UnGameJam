@@ -1,10 +1,11 @@
 ﻿using System;
+using SerializeReferenceEditor;
 using UnityEngine;
 
 [Serializable]
 public class AttackGA : GameAction
 {
-    [SerializeField] private int damage = 1;
+    [SerializeField, SerializeReference, SR] private ProjectileSettings projectileSettings;
     
-    public int Damage => damage;
+    public ProjectileSettings ProjectileSettings => projectileSettings;
 }

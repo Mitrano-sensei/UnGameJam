@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using EditorAttributes;
 using PrimeTween;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utilities;
 
 public class ShipController : MonoBehaviour, IDamageable
@@ -19,7 +17,6 @@ public class ShipController : MonoBehaviour, IDamageable
     [SerializeField] private float fireTweenScaleFactor = .6f;
     [SerializeField] private SimpleBullet simpleBulletPrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private float bulletSpeed = 10f;
     
     private ShipSetup _shipSetup;
     private bool _isMoving;
@@ -65,17 +62,14 @@ public class ShipController : MonoBehaviour, IDamageable
         _moveQueue.Enqueue(movementGa);
     }
 
-    [Button]
-    public void Fire(int damage = 1)
+    public void Fire(ProjectileSettings projectileSettings)
     {
+        var projectile = Instantiate(projectileSettings.ProjectilePrefab, firePoint.position, Quaternion.identity);
+        projectileSettings.Spawn(projectile);
+        
         Sequence.Create()
             .Chain(Tween.Scale(modelTransform, new TweenSettings<float>(endValue:fireTweenScaleFactor, settings:fireScaleTweenSetting)))
             .Chain(Tween.Scale(modelTransform, new TweenSettings<float>(endValue: 1f, settings: fireScaleTweenSetting)));
-        
-        var bullet = Instantiate(simpleBulletPrefab, firePoint.position, Quaternion.identity);
-        bullet.SetDamage(damage);
-        Rigidbody bulletRb = bullet.RigidBody;
-        bulletRb.linearVelocity = Vector2.right * bulletSpeed;
     }
 
     public void InflictDamageSelf(int amount)

@@ -19,9 +19,8 @@ public class AttackPerformer : MonoBehaviour
         var shipSetup = Registry<ShipSetup>.GetFirst();
         var shipController = shipSetup.ShipController;
 
-        shipController.Fire();
+        shipController.Fire(attackGA.ProjectileSettings);
         
-        Debug.Log($"Attack for {attackGA.Damage} Damages");
         yield return null;
     }
 }

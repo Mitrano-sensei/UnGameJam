@@ -20,8 +20,6 @@ public class StartCombatAnimationOverlay : AnimationOverlay
             yield break;
         }
         
-        yield return FadeIn();
-
         text.text = countdown.ToString();
         for (int i = countdown; i > 0; i--)
         {

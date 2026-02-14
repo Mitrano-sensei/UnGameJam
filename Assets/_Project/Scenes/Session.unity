@@ -175,6 +175,7 @@ MonoBehaviour:
   - {fileID: 667143604}
   - {fileID: 9040838187760974448}
   - {fileID: 1550098505}
+  isDebug: 0
 --- !u!1 &501038581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1467991113255723647, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
@@ -229,6 +230,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 324611198580312377, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
+      propertyPath: baseDeck
+      value: 
+      objectReference: {fileID: 11400000, guid: 25d1ac3ff63bfda4b93dff3d57c4a0ce, type: 2}
     - target: {fileID: 324611198580312377, guid: 2b72845e5c6547c409e7ed2c8e49884b, type: 3}
       propertyPath: baseHandSize
       value: 5

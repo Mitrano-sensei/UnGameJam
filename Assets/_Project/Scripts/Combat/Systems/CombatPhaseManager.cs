@@ -40,8 +40,6 @@ public class CombatPhaseManager : MonoBehaviour, ILoadable
 
     public void UnLoadWithScene()
     {
-        Debug.Log("Call Unload combat phase manager");
-        
         // Relic System
         var relicSystem = Registry<RelicSystem>.GetFirst();
         if (relicSystem == null) Debug.LogWarning("No Relic System registered :/");

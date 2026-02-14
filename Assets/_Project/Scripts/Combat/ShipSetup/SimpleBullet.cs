@@ -1,5 +1,4 @@
-﻿using System;
-using EditorAttributes;
+﻿using EditorAttributes;
 using UnityEngine;
 
 public class SimpleBullet : MonoBehaviour

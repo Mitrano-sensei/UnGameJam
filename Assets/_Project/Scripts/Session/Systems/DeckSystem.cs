@@ -3,7 +3,6 @@ using System.Linq;
 using EditorAttributes;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Utilities;
 
 public class DeckSystem : MonoBehaviour, ILoadable
@@ -15,9 +14,8 @@ public class DeckSystem : MonoBehaviour, ILoadable
 
     [Header("Base Deck")]
     [SerializeField] private BaseDeck baseDeck;
-
+    
     [Header("Deck")]
-    [SerializeField] private int baseHandSize;
     [SerializeField, ReadOnly] private List<CardData> _boughtCards = new();
 
     [SerializeField, ReadOnly] private List<CardData> _currentHand = new();
@@ -26,7 +24,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
     private int _currentHandSize;
 
     [Header("Events")]
-    [HideInInspector] private readonly UnityEvent<int, int> onHandSizeChanged = new(); // oldValue, newValue -> onHandSizeChanged
+    private readonly UnityEvent<int, int> onHandSizeChanged = new(); // oldValue, newValue -> onHandSizeChanged
 
     [Header("Misc")]
     [SerializeField] private bool initOnStart = true;
@@ -61,7 +59,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
     public void Initialize()
     {
         _currentDeck = GetFullDeck();
-        _currentHandSize = baseHandSize + _statSystem.GetStatModifierValue(StatSystem.StatType.HandSize);
+        _currentHandSize = baseDeck.baseHandSize + _statSystem.GetStatModifierValue(StatSystem.StatType.HandSize);
 
         _currentHand.Clear();
         ShuffleDeck();
@@ -123,7 +121,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
     {
         if (type != StatSystem.StatType.HandSize) return;
 
-        _currentHandSize = baseHandSize + newValue;
+        _currentHandSize = baseDeck.baseHandSize + newValue;
         onHandSizeChanged.Invoke(oldValue, _currentHandSize);
     }
 
@@ -174,7 +172,7 @@ public class DeckSystem : MonoBehaviour, ILoadable
     private void FillHandDebug()
     {
         if (!Application.IsPlaying(this)) return;
-        Draw(baseHandSize);
+        Draw(baseDeck.baseHandSize);
     }
 
     #endregion

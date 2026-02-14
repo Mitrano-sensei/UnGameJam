@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20dc021dd39446ab884d8eb5562340c7, type: 3}
+  m_Name: Base Deck 1
+  m_EditorClassIdentifier: Assembly-CSharp::BaseDeck
+  Name: 
+  baseHandSize: 5
+  Cards:
+  - {fileID: 11400000, guid: efc6f8b26c945e5489badd3423ee6548, type: 2}
+  - {fileID: 11400000, guid: 3d6a01ea5dfdca5418c5fcbf3418859f, type: 2}
+  - {fileID: 11400000, guid: 3c70d1559af15d94cb8bee950e151dfc, type: 2}
+  - {fileID: 11400000, guid: 20cf13b250088cd4d9a0e4231615c197, type: 2}
+  - {fileID: 11400000, guid: 20cf13b250088cd4d9a0e4231615c197, type: 2}
+  - {fileID: 11400000, guid: f589698782b75e24781c9f44d4b4b54c, type: 2}
+  - {fileID: 11400000, guid: f589698782b75e24781c9f44d4b4b54c, type: 2}
+  - {fileID: 11400000, guid: 10c428ca86002b34ab40ada017487fec, type: 2}
+  - {fileID: 11400000, guid: 10c428ca86002b34ab40ada017487fec, type: 2}
+  - {fileID: 11400000, guid: 9e330713989110543938a14c6e308244, type: 2}
