@@ -8,7 +8,11 @@ public class SimpleStatRelic : RelicData
 {
     [SerializeField] private List<StatChangeData> statChanges;
     
-    public override void Apply()
+    public override void Apply() => OnUseRelic?.Invoke();
+
+    public override void Remove() { }
+
+    public override void OnBuyEffect()
     {
         var statSystem = Registry<StatSystem>.GetFirst();
         if (!statSystem)
@@ -17,18 +21,6 @@ public class SimpleStatRelic : RelicData
             return;
         } 
         statChanges.ForEach(x => statSystem.AddStatModifier(x.StatType, x.Amount));
-        OnUseRelic?.Invoke();
-    }
-
-    public override void Remove()
-    {
-        var statSystem = Registry<StatSystem>.GetFirst();
-        if (!statSystem)
-        {
-            Debug.LogError("No Stat System registered");
-            return;
-        } 
-        statChanges.ForEach(x => statSystem.RemoveStatModifier(x.StatType, x.Amount));
     }
 }
 

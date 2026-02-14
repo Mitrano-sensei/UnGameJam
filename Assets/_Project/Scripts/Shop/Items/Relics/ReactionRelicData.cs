@@ -37,4 +37,6 @@ public abstract class ReactionRelicData<T> : RelicData where T : GameAction
         ActionSystem.UnsubscribeReaction<T>(_reactionRef, timing);
         _reactionRef = null;
     }
+
+    public override void OnBuyEffect() { }
 }

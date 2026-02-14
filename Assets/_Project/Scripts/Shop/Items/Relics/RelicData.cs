@@ -29,6 +29,7 @@ public abstract class RelicData : BuyableItem
 
     public abstract void Apply();
     public abstract void Remove();
+    public abstract void OnBuyEffect();
 
     public override APreview GeneratePreview(bool forShop = true, bool spawnAnimation = true)
     {
@@ -58,6 +59,7 @@ public abstract class RelicData : BuyableItem
         if (!shopSystem.CanBuyRelic()) return;
 
         shopSystem.BuyRelic(this);
+        OnBuyEffect();
         RemoveFromPreview(preview);
     }
 }
